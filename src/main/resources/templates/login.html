@@ -52,44 +52,63 @@
               </div>
             </li>
           </ul> -->
-			<form class="form-inline my-2 my-md-0">
-				<input class="form-control" type="text" placeholder="Search"
-					aria-label="Search">
-			</form>
+
 		</div>
 	</nav>
-	<div class="subnavbar">
-		<div class="subnavbar-inner">
-			<div class="container">
-				<ul class="mainnav">
-					<li><a href="index.html"><i class="far fa-user-tie fa-3x"></i><span>Trainer</span>
-					</a></li>
-					<li><a href="reports.html"><i class="fas fa-books fa-3x"></i><span>Cateogry
-								of the course</span> </a></li>
-					<li><a href="reports.html"><i class="fas fa-book fa-3x"></i><span>Course</span>
-					</a></li>
-					<li><a href="guidely.html"><i
-							class="far fa-users-class fa-3x"></i><span>Trainee</span> </a></li>
-					<li class="active"><a href="charts.html"><i
-							class="fal fa-user-hard-hat fa-3x"></i><span>Staff</span> </a></li>
-					<li><a href="shortcodes.html"><i
-							class="far fa-newspaper fa-3x"></i><span>Topic</span> </a></li>
 
-				</ul>
+
+	<div class="cotainer" style="padding-top: 10rem">
+		<div class="row justify-content-center">
+			<div class="col-md-4">
+				<div class="card">
+					<div class="card-header">Đăng nhập</div>
+					<div class="card-body">
+						<form th:action="@{/j_spring_security_check}" method="POST">
+							<div class="form-group row">
+								<label for="userName"
+									class="col-md-4 col-form-label text-md-right">E-Mail
+									Address</label>
+								<div class="col-md-6">
+									<input type="text" id="userName" class="form-control"
+										name="username" >
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label for="password"
+									class="col-md-4 col-form-label text-md-right">Password</label>
+								<div class="col-md-6">
+									<input type="password" id="password" class="form-control"
+										name="password" required>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<div class="col-md-6 offset-md-4">
+									<div class="checkbox">
+										<label> <input type="checkbox" name="remember">
+											Remember Me
+										</label>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6 offset-md-4">
+								<button type="submit" class="btn btn-primary">Register
+								</button>
+								<a href="#" class="btn btn-link"> Forgot Your Password? </a>
+							</div>
+						</form>
+					</div>
+				</div>
 			</div>
-			<!-- /container -->
 		</div>
-		<!-- /subnavbar-inner -->
 	</div>
-	
-	
 
 	<!-- Le javascript
 ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script th:src="@{/webjars/jquery/3.4.0/jquery.js}"></script>
 	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.js}"></script>
-
-
 </body>
 </html>

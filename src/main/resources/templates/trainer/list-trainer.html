@@ -15,6 +15,12 @@
 <link th:href="@{/fontawesome-pro-5.8.1-web/css/all.css}"
 	rel="stylesheet" type="text/css">
 <link th:href="@{/css/subnavbar.css}" rel="stylesheet" type="text/css">
+<link
+	th:href="@{/webjars/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css}"
+	rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/datatables/1.10.19/css/dataTables.bootstrap4.min.css}" />
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -81,15 +87,85 @@
 		</div>
 		<!-- /subnavbar-inner -->
 	</div>
-	
-	
 
+	<div class="container">
+
+		<div class="jumbotron">
+			<h1>Quản lý thông tin người hướng dẫn</h1>
+			<p>Danh sách người hướng dẫn</p>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<p>
+					<button type="button" onclick="location.href='/staff/trainer/add';" class="btn btn-success btn-block"> <i class="fas fa-plus-square"></i> Thêm thông tin người hướng dẫn </button>
+				</p>
+			</div>
+		</div>
+		<table id="example" style="width: 100%">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Họ</th>
+					<th>Tên</th>
+					<th>Ngày sinh</th>
+					<th>Email</th>
+					<th>Số điện thoại</th>
+					<th>Thao tác</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="trainer : ${trainers}">
+					<tr>
+						<td th:text="${trainer.id}">...</td>
+						<td th:text="${trainer.lastName}">...</td>
+						<td th:text="${trainer.firstName}">...</td>
+						<td th:text="${trainer.dateOfBirth}">...</td>
+						<td th:text="${trainer.email}">...</td>
+						<td th:text="${trainer.phone}">...</td>
+						<td>
+							<button type="button" class="btn btn-primary btn-sm">
+								<i class="fas fa-info-square fa-lg	"></i>
+							</button>
+							<button type="button" class="btn btn-primary btn-sm">
+								<i class="far fa-user-edit fa-lg	"></i>
+							</button>
+							<button type="button" class="btn btn-danger btn-sm">
+								<i class="fal fa-trash fa-lg	"></i>
+							</button>
+						</td>
+					</tr>
+				</th:block>
+
+
+
+			</tbody>
+
+		</table>
+
+	</div>
 	<!-- Le javascript
 ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script th:src="@{/webjars/jquery/3.4.0/jquery.js}"></script>
 	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
 
+			$('#example').DataTable({
+
+			/* 'columnDefs' : [ {
+				'targets' : 6, // column index (start from 0)
+				'orderable' : false, // set orderable false for selected columns
+			} ] */
+			});
+		});
+	</script>
 
 </body>
 </html>

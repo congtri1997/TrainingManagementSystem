@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Dashboard - Bootstrap Admin Template</title>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<!-- <link href="css/bootstrap.min.css" rel="stylesheet"  type="text/css"> -->
+<link th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.css}"
+	rel="stylesheet" type="text/css">
+<link
+	href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600"
+	rel="stylesheet">
+<link th:href="@{/fontawesome-pro-5.8.1-web/css/all.css}"
+	rel="stylesheet" type="text/css">
+<link th:href="@{/css/subnavbar.css}" rel="stylesheet" type="text/css">
+<link
+	th:href="@{/webjars/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css}"
+	rel="stylesheet" type="text/css">
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark "
+		style="background-color: #19bc9c;">
+		<div class="container">
+			<a class="navbar-brand" href="#">Training Managment System</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarsExample07" aria-controls="navbarsExample07"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<!--         <div class="collapse navbar-collapse" id="navbarsExample07">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link readonly " href="#">readonly </a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown07" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown07">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+          </ul> -->
+			<form class="form-inline my-2 my-md-0">
+				<input class="form-control" type="text" placeholder="Search"
+					aria-label="Search">
+			</form>
+		</div>
+	</nav>
+	<div class="subnavbar">
+		<div class="subnavbar-inner">
+			<div class="container">
+				<ul class="mainnav">
+					<li><a href="index.html"><i class="far fa-user-tie fa-3x"></i><span>Trainer</span>
+					</a></li>
+					<li><a href="reports.html"><i class="fas fa-books fa-3x"></i><span>Cateogry
+								of the course</span> </a></li>
+					<li><a href="reports.html"><i class="fas fa-book fa-3x"></i><span>Course</span>
+					</a></li>
+					<li><a href="guidely.html"><i
+							class="far fa-users-class fa-3x"></i><span>Trainee</span> </a></li>
+					<li class="active"><a href="charts.html"><i
+							class="fal fa-user-hard-hat fa-3x"></i><span>Staff</span> </a></li>
+					<li><a href="shortcodes.html"><i
+							class="far fa-newspaper fa-3x"></i><span>Topic</span> </a></li>
+
+				</ul>
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /subnavbar-inner -->
+	</div>
+
+	<div class="container">
+		<div class="jumbotron">
+			<h1>Manage trainer's information</h1>
+			<p>Create a new trainer's information page</p>
+		</div>
+
+		<form id="formAddStudent" th:action="@{/staff/trainer/edit}"
+			th:object="${trainerForm}" method="post">
+			<input id="userName" name="userName"
+				placeholder="Vui lòng nhập tên tài khoản" type="hidden"
+				class="form-control" 
+				th:field="*{id}">
+			<fieldset class="border p-3">
+				<legend class="w-auto">Sủa thông tin người hướng dẫn</legend>
+				<div class="form-group row">
+					<label for="userName" class="col-2 col-form-label">Tên tài
+						khoản</label>
+					<div class="col-10">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<i class="fa fa-address-card"></i>
+								</div>
+							</div>
+							<input id="userName" name="userName"
+								placeholder="Vui lòng nhập tên tài khoản" type="text"
+								class="form-control" aria-describedby="userNameHelpBlock"
+								th:field="*{userName}" readonly>
+						</div>
+						<span id="userNameHelpBlock" class="form-text text-muted"
+							th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
+					</div>
+				</div>
+
+
+
+				<div class="form-group row">
+					<label for="email" class="col-2 col-form-label">Email</label>
+					<div class="col-10">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<i class="fa fa-at"></i>
+								</div>
+							</div>
+							<input id="email" name="email"
+								placeholder="Vui lòng nhập tài khoản" type="text"
+								aria-describedby="emailHelpBlock" class="form-control"
+								th:field="*{email}" readonly>
+						</div>
+						<span id="emailHelpBlock" class="form-text text-muted"
+							th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="lastName" class="col-2 col-form-label">Họ</label>
+					<div class="col-10">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<i class="fas fa-user-circle"></i>
+								</div>
+							</div>
+							<input id="lastName" name="lastName"
+								placeholder="Vui lòng nhập họ" type="text" class="form-control"
+								aria-describedby="lastNameHelpBlock" th:field="*{lastName}">
+						</div>
+						<span id="lastNameHelpBlock" class="form-text text-muted"
+							th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="firstName" class="col-2 col-form-label">Tên</label>
+					<div class="col-10">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<i class="fas fa-user-circle"></i>
+								</div>
+							</div>
+							<input id="firstName" name="firstName"
+								placeholder="Vui lòng nhập tên" type="text" class="form-control"
+								aria-describedby="firstNameHelpBlock" th:field="*{firstName}">
+						</div>
+						<span id="firstNameHelpBlock" class="form-text text-muted"
+							th:if="${#fields.hasErrors('firstName')}"
+							th:errors="*{firstName}"></span>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="birthday" class="col-2 col-form-label">Ngày
+						sinh</label>
+					<div class="col-10">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<i class="fa fa-birthday-cake"></i>
+								</div>
+							</div>
+							<input id="birthday" name="birthday"
+								placeholder="Vui lòng chọn ngày sinh" type="text"
+								class="form-control" aria-describedby="birthdayHelpBlock"
+								autocomplete="off" th:field="*{birthDate}">
+						</div>
+						<span id="birthdayHelpBlock" class="form-text text-muted"
+							th:if="${#fields.hasErrors('birthDate')}"
+							th:errors="*{birthDate}"></span>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label for="phone" class="col-2 col-form-label">Số điện
+						thoại</label>
+					<div class="col-10">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<i class="fas fa-mobile-alt"></i>
+								</div>
+							</div>
+							<input id="phone" name="phone"
+								placeholder="Vui lòng nhập số điện thoại" type="text"
+								class="form-control" aria-describedby="phoneHelpBlock"
+								th:field="*{phone}">
+						</div>
+						<span id="phoneHelpBlock" class="form-text text-muted"
+							th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label for="text" class="col-2 col-form-label">Nơi làm việc</label>
+					<div class="col-10">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<i class="fas fa-map-marker-check"></i>
+								</div>
+							</div>
+							<input id="text" name="text"
+								placeholder="Xin vui lòng nhập thông tin nơi làm việc"
+								type="text" class="form-control" th:field="*{workingPlace}">
+						</div>
+						<span id="workingPlaceHelpBlock" class="form-text text-muted"
+							th:if="${#fields.hasErrors('workingPlace')}"
+							th:errors="*{workingPlace}"></span>
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<label for="workingType" class="col-2 col-form-label">Loại
+						công việc</label>
+					<div class="col-10">
+						<select id="workingType" name="workingType" class="custom-select"
+							th:field="*{workingType}" aria-describedby="workingTypeHelpBlock">
+							<option value="internal">Internal</option>
+							<option value="external">External</option>
+						</select> <span id="workingTypeHelpBlock" class="form-text text-muted"></span>
+					</div>
+				</div>
+
+
+				<div class="form-group row">
+					<div class="offset-2 col-10">
+						<button name="submit" type="submit" class="btn btn-primary">Submit</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+	<!-- Le javascript
+================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script th:src="@{/webjars/jquery/3.4.0/jquery.js}"></script>
+	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.js}"></script>
+	<script
+		th:src="@{/webjars/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js}"></script>
+	<script type="text/javascript">
+		$('#birthday').datepicker({
+			format : "dd/mm/yyyy"
+		});
+	</script>
+</body>
+</html>

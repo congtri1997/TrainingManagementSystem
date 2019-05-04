@@ -15,6 +15,12 @@
 <link th:href="@{/fontawesome-pro-5.8.1-web/css/all.css}"
 	rel="stylesheet" type="text/css">
 <link th:href="@{/css/subnavbar.css}" rel="stylesheet" type="text/css">
+<link
+	th:href="@{/webjars/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css}"
+	rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/datatables/1.10.19/css/dataTables.bootstrap4.min.css}" />
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -81,15 +87,82 @@
 		</div>
 		<!-- /subnavbar-inner -->
 	</div>
-	
-	
 
+	<div class="container">
+		<div class="jumbotron">
+			<h1>Quản lý thông tin người hướng dẫn</h1>
+			<p>Xem thông tin chi tiết</p>
+		</div>
+		<table class="table">
+			<tbody th:object="${trainer}">
+				<tr>
+					<th>ID</th>
+					<td th:text="*{id}">none</td>
+
+				</tr>
+				<tr>
+					<th>Họ</th>
+					<td th:text="*{lastName}">none</td>
+
+				</tr>
+				<tr>
+					<th>Tên</th>
+					<td th:text="*{firstName}">none</td>
+
+				</tr>
+				<tr>
+					<th>Email</th>
+					<td th:text="*{email}">none</td>
+
+				</tr>
+				<tr>
+					<th>Tên tài khoản</th>
+					<td th:text="*{userName}">none</td>
+
+				</tr>
+				<tr>
+					<th>Mật khẩu mã hóa</th>
+					<td th:text="*{encryptedPassword}">none</td>
+
+				</tr>
+				<tr>
+					<th>Ngày sinh</th>
+					<td th:text="*{dateOfBirth}">none</td>
+
+				</tr>
+				<tr>
+					<th>Nơi làm việc</th>
+					<td th:text="*{workingPlace}">none</td>
+
+				</tr>
+				<tr>
+					<th>Loại công việc</th>
+					<td th:text="*{workingType}">none</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 	<!-- Le javascript
 ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script th:src="@{/webjars/jquery/3.4.0/jquery.js}"></script>
 	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
 
+			$('#example').DataTable({
+
+			/* 'columnDefs' : [ {
+				'targets' : 6, // column index (start from 0)
+				'orderable' : false, // set orderable false for selected columns
+			} ] */
+			});
+		});
+	</script>
 
 </body>
 </html>

@@ -15,6 +15,9 @@
 <link th:href="@{/fontawesome-pro-5.8.1-web/css/all.css}"
 	rel="stylesheet" type="text/css">
 <link th:href="@{/css/subnavbar.css}" rel="stylesheet" type="text/css">
+<link
+	th:href="@{/webjars/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css}"
+	rel="stylesheet" type="text/css">
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -88,55 +91,25 @@
 			<p>Create a new trainer's information page</p>
 		</div>
 
-		<form id="formAddStudent" method="post">
+		<form id="formAddStudent" th:action="@{/staff/trainer/add}"
+			th:object="${trainerForm}" method="post">
 			<fieldset class="border p-3">
 				<legend class="w-auto">Create a new trainer's information</legend>
 				<div class="form-group row">
-					<label for="email" class="col-2 col-form-label">Email</label>
+					<label for="userName" class="col-2 col-form-label">Tên tài
+						khoản</label>
 					<div class="col-10">
 						<div class="input-group">
 							<div class="input-group-prepend">
 								<div class="input-group-text">
-									<i class="fa fa-at"></i>
+									<i class="fa fa-address-card"></i>
 								</div>
 							</div>
-							<input id="email" name="email" placeholder="Vui lòng nhập email"
-								type="text" aria-describedby="emailHelpBlock"
-								class="form-control">
+							<input id="userName" name="userName"
+								placeholder="Vui lòng nhập tên tài khoản" type="text"
+								class="form-control" aria-describedby="userNameHelpBlock" th:field="*{userName}">
 						</div>
-						<span id="emailHelpBlock" class="form-text text-muted"></span>
-					</div>
-				</div>
-				<div class="form-group row">
-					<label for="lastName" class="col-2 col-form-label">Họ</label>
-					<div class="col-10">
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<div class="input-group-text">
-									<i class="fas fa-user-circle"></i>
-								</div>
-							</div>
-							<input id="lastName" name="lastName"
-								placeholder="Vui lòng nhập họ" type="text" class="form-control"
-								aria-describedby="lastNameHelpBlock">
-						</div>
-						<span id="lastNameHelpBlock" class="form-text text-muted"></span>
-					</div>
-				</div>
-				<div class="form-group row">
-					<label for="firstName" class="col-2 col-form-label">Tên</label>
-					<div class="col-10">
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<div class="input-group-text">
-									<i class="fas fa-user-circle"></i>
-								</div>
-							</div>
-							<input id="firstName" name="firstName"
-								placeholder="Vui lòng nhập tên" type="text" class="form-control"
-								aria-describedby="firstNameHelpBlock">
-						</div>
-						<span id="firstNameHelpBlock" class="form-text text-muted"></span>
+						<span id="userNameHelpBlock" class="form-text text-muted" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></span>
 					</div>
 				</div>
 				<div class="form-group row">
@@ -150,9 +123,9 @@
 							</div>
 							<input id="password" name="password"
 								placeholder="Vui lòng nhập mật khẩu" type="text"
-								class="form-control" aria-describedby="passwordHelpBlock">
+								class="form-control" aria-describedby="passwordHelpBlock" th:field="*{password}">
 						</div>
-						<span id="passwordHelpBlock" class="form-text text-muted"></span>
+						<span id="passwordHelpBlock" class="form-text text-muted" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 					</div>
 				</div>
 				<div class="form-group row">
@@ -167,43 +140,58 @@
 							</div>
 							<input id="confirmPassword" name="confirmPassword"
 								placeholder="Vui lòng nhập xác nhận mật khẩu" type="text"
-								class="form-control" aria-describedby="confirmPasswordHelpBlock">
+								class="form-control" aria-describedby="confirmPasswordHelpBlock" th:field="*{confirmPassword}">
 						</div>
-						<span id="passwordHelpBlock" class="form-text text-muted"></span>
+						<span id="passwordHelpBlock" class="form-text text-muted" th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"></span>
 					</div>
 				</div>
+
 				<div class="form-group row">
-					<label for="userName" class="col-2 col-form-label">Tên tài
-						khoản</label>
+					<label for="email" class="col-2 col-form-label">Email</label>
 					<div class="col-10">
 						<div class="input-group">
 							<div class="input-group-prepend">
 								<div class="input-group-text">
-									<i class="fa fa-address-card"></i>
+									<i class="fa fa-at"></i>
 								</div>
 							</div>
-							<input id="userName" name="userName"
-								placeholder="Vui lòng nhập tên tài khoản" type="text"
-								class="form-control" aria-describedby="userNameHelpBlock">
+							<input id="email" name="email"
+								placeholder="Vui lòng nhập tài khoản" type="text"
+								aria-describedby="emailHelpBlock" class="form-control"  th:field="*{email}">
 						</div>
-						<span id="userNameHelpBlock" class="form-text text-muted"></span>
+						<span id="emailHelpBlock" class="form-text text-muted" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
 					</div>
 				</div>
 				<div class="form-group row">
-					<label for="phone" class="col-2 col-form-label">Số điện
-						thoại</label>
+					<label for="lastName" class="col-2 col-form-label">Họ</label>
 					<div class="col-10">
 						<div class="input-group">
 							<div class="input-group-prepend">
 								<div class="input-group-text">
-									<i class="fas fa-mobile-alt"></i>
+									<i class="fas fa-user-circle"></i>
 								</div>
 							</div>
-							<input id="phone" name="phone"
-								placeholder="Vui lòng nhập số điện thoại" type="text"
-								class="form-control" aria-describedby="phoneHelpBlock">
+							<input id="lastName" name="lastName"
+								placeholder="Vui lòng nhập họ" type="text" class="form-control"
+								aria-describedby="lastNameHelpBlock" th:field="*{lastName}">
 						</div>
-						<span id="phoneHelpBlock" class="form-text text-muted"></span>
+						<span id="lastNameHelpBlock" class="form-text text-muted" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="firstName" class="col-2 col-form-label">Tên</label>
+					<div class="col-10">
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<i class="fas fa-user-circle"></i>
+								</div>
+							</div>
+							<input id="firstName" name="firstName"
+								placeholder="Vui lòng nhập tên" type="text" class="form-control"
+								aria-describedby="firstNameHelpBlock" th:field="*{firstName}">
+						</div>
+						<span id="firstNameHelpBlock" class="form-text text-muted" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></span>
 					</div>
 				</div>
 				<div class="form-group row">
@@ -218,83 +206,64 @@
 							</div>
 							<input id="birthday" name="birthday"
 								placeholder="Vui lòng chọn ngày sinh" type="text"
-								class="form-control" aria-describedby="birthdayHelpBlock">
+								class="form-control" aria-describedby="birthdayHelpBlock"  autocomplete="off" th:field="*{birthDate}">
 						</div>
-						<span id="birthdayHelpBlock" class="form-text text-muted"></span>
+						<span id="birthdayHelpBlock" class="form-text text-muted" th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}"></span>
 					</div>
 				</div>
+
 				<div class="form-group row">
-					<label class="col-2">Giới tính</label>
+					<label for="phone" class="col-2 col-form-label">Số điện
+						thoại</label>
 					<div class="col-10">
-						<div class="custom-control custom-radio custom-control-inline">
-							<input name="gender" id="gender_0" type="radio"
-								aria-describedby="genderHelpBlock" class="custom-control-input"
-								value="1"> <label for="gender_0"
-								class="custom-control-label">Nam</label>
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<i class="fas fa-mobile-alt"></i>
+								</div>
+							</div>
+							<input id="phone" name="phone"
+								placeholder="Vui lòng nhập số điện thoại" type="text"
+								class="form-control" aria-describedby="phoneHelpBlock"  th:field="*{phone}">
 						</div>
-						<div class="custom-control custom-radio custom-control-inline">
-							<input name="gender" id="gender_1" type="radio"
-								aria-describedby="genderHelpBlock" class="custom-control-input"
-								value="0" checked="checked"> <label for="gender_1"
-								class="custom-control-label">Nữ</label>
-						</div>
-						<div class="custom-control custom-radio custom-control-inline">
-							<input name="gender" id="gender_2" type="radio"
-								aria-describedby="genderHelpBlock" class="custom-control-input"
-								value="2"> <label for="gender_2"
-								class="custom-control-label">Khác</label>
-						</div>
-						<span id="genderHelpBlock" class="form-text text-muted"></span>
+						<span id="phoneHelpBlock" class="form-text text-muted" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></span>
 					</div>
 				</div>
+
 				<div class="form-group row">
-					<label for="favorCourses" class="col-2 col-form-label">Môn
-						học yêu thích</label>
+					<label for="text" class="col-2 col-form-label">Nơi làm việc</label>
 					<div class="col-10">
-						<select multiple="multiple" id="favorCourses" name="favorCourses"
-							class="custom-select" aria-describedby="favorCoursesHelpBlock">
-							<option value="rabbit">Rabbit</option>
-							<option value="duck">Duck</option>
-							<option value="fish">Fish</option>
-						</select> <span id="favorCoursesHelpBlock" class="form-text text-muted"></span>
+						<div class="input-group">
+							<div class="input-group-prepend">
+								<div class="input-group-text">
+									<i class="fas fa-map-marker-check"></i>
+								</div>
+							</div>
+							<input id="text" name="text"
+								placeholder="Xin vui lòng nhập thông tin nơi làm việc"
+								type="text" class="form-control" th:field="*{workingPlace}">
+						</div>
+						<span id="workingPlaceHelpBlock" class="form-text text-muted" th:if="${#fields.hasErrors('workingPlace')}" th:errors="*{workingPlace}"></span>
 					</div>
 				</div>
+
 				<div class="form-group row">
-					<label class="col-2">Môn thể thao yêu thích</label>
+					<label for="workingType" class="col-2 col-form-label">Loại
+						công việc</label>
 					<div class="col-10">
-						<div class="custom-control custom-checkbox custom-control-inline">
-							<input name="favorSports" id="favorSports_0" type="checkbox"
-								checked="checked" class="custom-control-input" value="rabbit"
-								aria-describedby="favorSportsHelpBlock"> <label
-								for="favorSports_0" class="custom-control-label">Rabbit</label>
-						</div>
-						<div class="custom-control custom-checkbox custom-control-inline">
-							<input name="favorSports" id="favorSports_1" type="checkbox"
-								checked="checked" class="custom-control-input" value="duck"
-								aria-describedby="favorSportsHelpBlock"> <label
-								for="favorSports_1" class="custom-control-label">Duck</label>
-						</div>
-						<div class="custom-control custom-checkbox custom-control-inline">
-							<input name="favorSports" id="favorSports_2" type="checkbox"
-								checked="checked" class="custom-control-input" value="fish"
-								aria-describedby="favorSportsHelpBlock"> <label
-								for="favorSports_2" class="custom-control-label">Fish</label>
-						</div>
-						<span id="favorSportsHelpBlock" class="form-text text-muted"></span>
+						<select id="workingType" name="workingType" class="custom-select" th:field="*{workingType}"
+							aria-describedby="workingTypeHelpBlock">
+							<option value="internal">Internal</option>
+							<option value="external">External</option>
+						</select> <span id="workingTypeHelpBlock" class="form-text text-muted"></span>
 					</div>
 				</div>
-				<div class="form-group row">
-					<label for="description" class="col-2 col-form-label">Mô tả
-						bản thân</label>
-					<div class="col-10">
-						<textarea id="description" name="description" cols="40" rows="5"
-							class="form-control" aria-describedby="descriptionHelpBlock"></textarea>
-						<span id="descriptionHelpBlock" class="form-text text-muted"></span>
-					</div>
-				</div>
+
+
 				<div class="form-group row">
 					<div class="offset-2 col-10">
-						<button name="submit" type="submit" class="btn btn-primary">Submit</button>
+						<button name="submit" type="submit" class="btn btn-primary"><i class="fas fa-level-up-alt"></i> Submit</button>
+						<button type="button" onclick="location.href='/staff/trainer/list';" class="btn btn-success "> <i class="fas fa-arrow-left"></i> Quay lại </button>
 					</div>
 				</div>
 			</fieldset>
@@ -305,5 +274,12 @@
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script th:src="@{/webjars/jquery/3.4.0/jquery.js}"></script>
 	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.js}"></script>
+	<script
+		th:src="@{/webjars/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.js}"></script>
+	<script type="text/javascript">
+		$('#birthday').datepicker({
+			format : "dd/mm/yyyy"
+		});
+	</script>
 </body>
 </html>
