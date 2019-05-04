@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="utf-8">
-<title>Dashboard - Bootstrap Admin Template</title>
+<title>Training Managment System</title>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -125,7 +125,7 @@
 						<td th:text="${trainer.email}">...</td>
 						<td th:text="${trainer.phone}">...</td>
 						<td>
-							<button type="button" class="btn btn-primary btn-sm">
+							<button type="button" class="btn btn-primary btn-sm" th:onclick="location.href='/staff/trainer/view/[[${trainer.id}]]';">
 								<i class="fas fa-info-square fa-lg	"></i>
 							</button>
 							<button type="button" class="btn btn-primary btn-sm">
