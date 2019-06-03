@@ -21,4 +21,14 @@ public class RoleService {
 		return roleRepository.findByName(name);
 	}
 
+	public boolean isRoleAlreadyExist(String name) {
+		return roleRepository.isRoleAlreadyExist(name);
+	}
+
+	public void addIfNotExist(String roleName) {
+		if (!isRoleAlreadyExist(roleName)) {
+			add(new Role(roleName));
+		}
+	}
+
 }

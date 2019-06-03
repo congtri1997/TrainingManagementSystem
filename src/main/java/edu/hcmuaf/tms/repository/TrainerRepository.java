@@ -10,6 +10,8 @@ public interface TrainerRepository extends JpaRepository<Trainer, Long> {
 
 	@Query("SELECT CASE WHEN COUNT(a) > 0 THEN true ELSE false END FROM Trainer a WHERE a.email = :email")
 	boolean isEmailAlreadyExisted(@Param("email") String email);
-//	Trainer findByEmail(String email);
 
+//	Trainer findByEmail(String email);
+//	@Query("SELECT CASE WHEN COUNT(t) > 0 THEN true ELSE false END FROM Trainer t WHERE t.id = :id")
+//	boolean isIdAlreadyExisted(@Param("id") Long id);
 }

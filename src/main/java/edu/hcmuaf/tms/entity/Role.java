@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table
 public class Role {
@@ -22,6 +24,7 @@ public class Role {
 	private String name;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private Set<AbstractUser> users = new HashSet<AbstractUser>();
 
 	public Role(long id, String name) {

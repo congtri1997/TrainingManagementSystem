@@ -12,8 +12,8 @@ public class Admin extends AbstractUser {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Admin(String userName, String encryptedPassword, boolean enabled) {
-		super(userName, encryptedPassword, enabled);
-	}
+//	public Admin(String userName, String encryptedPassword, boolean enabled) {
+//		super(userName, encryptedPassword, enabled);
+//	}
 
 }

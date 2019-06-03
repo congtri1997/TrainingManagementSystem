@@ -1,67 +1,53 @@
 package edu.hcmuaf.tms.entity;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@EqualsAndHashCode(callSuper = true)
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table
 public class Trainer extends AbstarctUserInformation {
 
-	private String workingType;
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	private WorkingType workingType;
 	private String workingPlace;
-	private String phone;
+	private String phoneNumber;
 	private String email;
-
+	@Builder.Default
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "trainer", cascade = CascadeType.ALL)
 	private Set<ParticularTopic> particularTopics = new HashSet<ParticularTopic>();
 
-	public Trainer() {
-	}
-
-	public String getWorkingType() {
-		return workingType;
-	}
-
-	public void setWorkingType(String workingType) {
+	@Builder
+	public Trainer(long id, String userName, String encryptedPassword, boolean enabled, Role role,
+			String firstName, String lastName, LocalDate birthDate, WorkingType workingType, String workingPlace,
+			String phoneNumber, String email) {
+		super(id, userName, encryptedPassword, enabled, role, firstName, lastName, birthDate);
 		this.workingType = workingType;
-	}
-
-	public String getWorkingPlace() {
-		return workingPlace;
-	}
-
-	public void setWorkingPlace(String workingPlace) {
 		this.workingPlace = workingPlace;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
+		this.phoneNumber = phoneNumber;
 		this.email = email;
 	}
 
-	public Set<ParticularTopic> getParticularTopics() {
-		return particularTopics;
-	}
-
-	public void setParticularTopics(Set<ParticularTopic> particularTopics) {
-		this.particularTopics = particularTopics;
-	}
 
 }

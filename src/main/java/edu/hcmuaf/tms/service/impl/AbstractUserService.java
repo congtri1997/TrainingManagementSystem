@@ -4,7 +4,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.hcmuaf.tms.entity.AbstractUser;
 import edu.hcmuaf.tms.repository.AbstractUserRepository;
-import edu.hcmuaf.tms.repository.RoleRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +13,12 @@ import org.springframework.stereotype.Service;
 public class AbstractUserService {
 	@Autowired
 	private AbstractUserRepository abstractUserRepository;
-	@Autowired
-	private RoleRepository roleRepository;
 
 	public void add(AbstractUser user) {
 		abstractUserRepository.save(user);
+	}
+	
+	public boolean isUserNameAlreadyExisted(String userName) {
+		return abstractUserRepository.isUserNameAlreadyExisted(userName);
 	}
 }

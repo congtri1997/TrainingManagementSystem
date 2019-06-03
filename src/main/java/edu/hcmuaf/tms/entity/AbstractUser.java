@@ -17,10 +17,21 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Table
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class AbstractUser {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected long id;
@@ -31,59 +42,19 @@ public abstract class AbstractUser {
 	protected String encryptedPassword;
 
 	protected boolean enabled;
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
 	@JoinTable(name = "User_Role", joinColumns = {
 			@JoinColumn(name = "userID", nullable = false, updatable = false) }, inverseJoinColumns = {
 					@JoinColumn(name = "roleID", nullable = false, updatable = false) })
+	@JsonIgnore
 	private Set<Role> roles = new HashSet<Role>();
 
-	protected AbstractUser() {
-	}
-
-	public AbstractUser(String userName, String encryptedPassword, boolean enabled) {
-		this.userName = userName;
-		this.encryptedPassword = encryptedPassword;
-		this.enabled = enabled;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
+	public AbstractUser(long id, String userName, String encryptedPassword, boolean enabled, Role role) {
 		this.id = id;
-	}
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
 		this.userName = userName;
-	}
-
-	public String getEncryptedPassword() {
-		return encryptedPassword;
-	}
-
-	public void setEncryptedPassword(String encryptedPassword) {
-		this.encryptedPassword = encryptedPassword;
-	}
-
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+		this.encryptedPassword = encryptedPassword;
+		this.roles.add(role);
 	}
 
 }

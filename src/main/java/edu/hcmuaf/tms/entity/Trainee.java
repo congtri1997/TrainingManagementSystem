@@ -1,83 +1,57 @@
 package edu.hcmuaf.tms.entity;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+@EqualsAndHashCode(callSuper = true)
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table
 public class Trainee extends AbstarctUserInformation {
 
 	private String education;
-	@ManyToOne
-	@JoinColumn(name = "mainProgrammingID")
-	private ProgramingLanguage programingLanguage;
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	private ProgrammingLanguage programmingLanguage;
 	private int scoreOfToeic;
 	private String detailsOfExp;
 	private String department;
 	private String address;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "trainee", cascade = CascadeType.ALL)
+	@Builder.Default
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "trainee", cascade = CascadeType.PERSIST)
+	@JsonIgnore
 	private Set<Enrollment> enrollments = new HashSet<Enrollment>();
-
-
-
-	public Trainee() {
-	}
-
-	public String getEducation() {
-		return education;
-	}
-
-	public void setEducation(String education) {
+	@Builder
+	public Trainee(long id, String userName, String encryptedPassword, boolean enabled, Role role, String firstName,
+			String lastName, LocalDate birthDate, String education, ProgrammingLanguage programmingLanguage,
+			int scoreOfToeic, String detailsOfExp, String department, String address) {
+		super(id, userName, encryptedPassword, enabled, role, firstName, lastName, birthDate);
 		this.education = education;
-	}
-
-	public ProgramingLanguage getProgramingLanguage() {
-		return programingLanguage;
-	}
-
-	public void setProgramingLanguage(ProgramingLanguage programingLanguage) {
-		this.programingLanguage = programingLanguage;
-	}
-
-	public int getScoreOfToeic() {
-		return scoreOfToeic;
-	}
-
-	public void setScoreOfToeic(int scoreOfToeic) {
+		this.programmingLanguage = programmingLanguage;
 		this.scoreOfToeic = scoreOfToeic;
-	}
-
-	public String getDetailsOfExp() {
-		return detailsOfExp;
-	}
-
-	public void setDetailsOfExp(String detailsOfExp) {
 		this.detailsOfExp = detailsOfExp;
-	}
-
-	public String getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(String department) {
 		this.department = department;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
 		this.address = address;
 	}
+
+	
+
 
 }

@@ -1,12 +1,9 @@
 package edu.hcmuaf.tms.form;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import edu.hcmuaf.tms.entity.Role;
 import edu.hcmuaf.tms.entity.Trainer;
+import edu.hcmuaf.tms.entity.WorkingType;
 
 public class TrainerForm {
 
@@ -15,43 +12,45 @@ public class TrainerForm {
 	private String lastName;
 	private String userName;
 	private String email;
-	private String phone;
+	private String phoneNumber;
 	private String password;
 	private String confirmPassword;
 	private String birthDate;
 	private String workingType;
 	private String workingPlace;
 
+	private String workingTypeText;
+	
+	private String passwordText;
+
+	public static TrainerForm convertToTrainerForm(Trainer trainer) {
+		TrainerForm trainerForm = new TrainerForm();
+		trainerForm.setId(trainer.getId());
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		trainerForm.setBirthDate(formatter.format(trainer.getBirthDate()));
+		trainerForm.setEmail(trainer.getEmail());
+		trainerForm.setFirstName(trainer.getFirstName());
+		trainerForm.setLastName(trainer.getLastName());
+		trainerForm.setPasswordText(trainer.getEncryptedPassword());
+		trainerForm.setPhoneNumber(trainer.getPhoneNumber());
+		trainerForm.setUserName(trainer.getUserName());
+		trainerForm.setWorkingPlace(trainer.getWorkingPlace());
+		WorkingType workingType = trainer.getWorkingType();
+		trainerForm.setWorkingType(workingType == null ? null : (workingType.getId() + ""));
+		trainerForm.setWorkingTypeText(workingType == null ? null : (workingType.getName() + ""));
+		return trainerForm;
+	}
+
 	public TrainerForm() {
 	}
 
-	public TrainerForm(Trainer trainer) {
-		id = trainer.getId();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		birthDate = trainer.getDateOfBirth().format(formatter);
-		firstName = trainer.getFirstName();
-		lastName = trainer.getLastName();
-		userName = trainer.getUserName();
-		email = trainer.getEmail();
-		phone = trainer.getPhone();
-		workingPlace = trainer.getWorkingPlace();
-		workingType = trainer.getWorkingType();
+	
+	public String getPasswordText() {
+		return passwordText;
 	}
 
-	public TrainerForm(long id, String firstName, String lastName, String userName, String email, String phone,
-			String password, String confirmPassword, String birthDate, String workingType, String workingPlace) {
-		super();
-		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.userName = userName;
-		this.email = email;
-		this.phone = phone;
-		this.password = password;
-		this.confirmPassword = confirmPassword;
-		this.birthDate = birthDate;
-		this.workingType = workingType;
-		this.workingPlace = workingPlace;
+	public void setPasswordText(String passwordText) {
+		this.passwordText = passwordText;
 	}
 
 	public Long getId() {
@@ -86,12 +85,12 @@ public class TrainerForm {
 		this.email = email;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setPhoneNumber(String phone) {
+		this.phoneNumber = phone;
 	}
 
 	public String getPassword() {
@@ -145,39 +144,47 @@ public class TrainerForm {
 	@Override
 	public String toString() {
 		return "TrainerForm [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", userName="
-				+ userName + ", email=" + email + ", phone=" + phone + ", password=" + password + ", confirmPassword="
-				+ confirmPassword + ", birthDate=" + birthDate + ", workingType=" + workingType + ", workingPlace="
-				+ workingPlace + "]";
+				+ userName + ", email=" + email + ", phone=" + phoneNumber + ", password=" + password
+				+ ", confirmPassword=" + confirmPassword + ", birthDate=" + birthDate + ", workingType=" + workingType
+				+ ", workingPlace=" + workingPlace + "]";
 	}
 
-	public Trainer doAddFirstTime(Role role, PasswordEncoder encoder) {
-		Trainer trainer = new Trainer();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		trainer.setDateOfBirth(LocalDate.parse(birthDate, formatter));
-		trainer.setEmail(email);
-		trainer.setEnabled(true);
-		trainer.setEncryptedPassword(encoder.encode(password));
-		trainer.setFirstName(firstName);
-		trainer.setLastName(lastName);
-		trainer.setPhone(phone);
-		trainer.setWorkingPlace(workingPlace);
-		trainer.setWorkingType(workingType);
-		trainer.getRoles().add(role);
-		trainer.setUserName(userName);
-
-		return trainer;
-
+	public String getWorkingTypeText() {
+		return workingTypeText;
 	}
 
-	public void update(Trainer trainer) {
-		trainer.setEmail(email);
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		trainer.setDateOfBirth(LocalDate.parse(birthDate, formatter));
-		trainer.setFirstName(firstName);
-		trainer.setLastName(lastName);
-		trainer.setPhone(phone);
-		trainer.setWorkingPlace(workingPlace);
-		trainer.setWorkingType(workingType);
+	public void setWorkingTypeText(String workingTypeText) {
+		this.workingTypeText = workingTypeText;
 	}
+
+//	public Trainer doAddFirstTime(Role role, PasswordEncoder encoder) {
+//		Trainer trainer = new Trainer();
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//		trainer.setDateOfBirth(LocalDate.parse(birthDate, formatter));
+//		trainer.setEmail(email);
+//		trainer.setEnabled(true);
+//		trainer.setEncryptedPassword(encoder.encode(password));
+//		trainer.setFirstName(firstName);
+//		trainer.setLastName(lastName);
+//		trainer.setPhone(phoneNumber);
+//		trainer.setWorkingPlace(workingPlace);
+////		trainer.setWorkingType(workingType.);
+//		trainer.getRoles().add(role);
+//		trainer.setUserName(userName);
+//
+//		return trainer;
+//
+//	}
+
+//	public void update(Trainer trainer) {
+//		trainer.setEmail(email);
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//		trainer.setDateOfBirth(LocalDate.parse(birthDate, formatter));
+//		trainer.setFirstName(firstName);
+//		trainer.setLastName(lastName);
+//		trainer.setPhone(phoneNumber);
+//		trainer.setWorkingPlace(workingPlace);
+////		trainer.setWorkingType(workingType);
+//	}
 
 }
