@@ -1,4 +1,4 @@
-package edu.hcmuaf.tms.entity;
+package temp;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -36,17 +36,18 @@ public class Trainer extends AbstarctUserInformation {
 	@Builder.Default
 	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "trainer", cascade = CascadeType.ALL)
-	private Set<Topic> topics = new HashSet<Topic>();
+	private Set<ParticularTopic> particularTopics = new HashSet<ParticularTopic>();
 
 	@Builder
-	public Trainer(long id, String userName, String encryptedPassword, boolean enabled, Role role, String firstName,
-			String lastName, LocalDate birthDate, WorkingType workingType, String workingPlace, String phoneNumber,
-			String email) {
+	public Trainer(long id, String userName, String encryptedPassword, boolean enabled, Role role,
+			String firstName, String lastName, LocalDate birthDate, WorkingType workingType, String workingPlace,
+			String phoneNumber, String email) {
 		super(id, userName, encryptedPassword, enabled, role, firstName, lastName, birthDate);
 		this.workingType = workingType;
 		this.workingPlace = workingPlace;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
 	}
+
 
 }

@@ -3,8 +3,12 @@ package edu.hcmuaf.tms.controller;
 import java.util.HashMap;
 import java.util.Locale;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -173,5 +177,14 @@ public class TrainerController {
 		return jsonRespone;
 	}
 	
+	
+	//datatable
+	
+	
+	@RequestMapping(value = "/staff/trainer/trainers", method = RequestMethod.GET)
+	public DataTablesOutput<TrainerForm> list(@Valid DataTablesInput input) {
+		return trainerService.findAll(input);
+	}
+
 
 }

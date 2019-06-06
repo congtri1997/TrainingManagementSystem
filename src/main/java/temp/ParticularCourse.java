@@ -1,4 +1,4 @@
-package edu.hcmuaf.tms.entity;
+package temp;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,17 +16,20 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-public class Enrollment {
+public class ParticularCourse {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	@ManyToOne
-	@JoinColumn(name = "traineeID", nullable = false)
-	private Trainee trainee;
+
 	@ManyToOne
 	@JoinColumn(name = "courseID", nullable = false)
 	private Course course;
-//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "enrollment", cascade = CascadeType.ALL)
-//	private Set<Feedback> feedbacks = new HashSet<Feedback>();
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "particularCourse", cascade = CascadeType.ALL)
+	private Set<ParticularTopic> particularTopics = new HashSet<ParticularTopic>();
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "particularCourse", cascade = CascadeType.ALL)
+	private Set<Enrollment> enrollments = new HashSet<Enrollment>();
 
 }

@@ -1,4 +1,4 @@
-package edu.hcmuaf.tms.entity;
+package temp;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -33,12 +33,8 @@ public class Course {
 					@JoinColumn(name = "courseCategoryID", nullable = false, updatable = false) })
 	private Set<CourseCategory> courseCategories = new HashSet<CourseCategory>();
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "course")
-	private Set<Topic> topics = new HashSet<Topic>();
-	
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "course", cascade = CascadeType.ALL)
-	private Set<Enrollment> enrollments = new HashSet<Enrollment>();
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "course")
+	private Set<ParticularCourse> particularCourses = new HashSet<ParticularCourse>();
 
 	public Course(long id, String name) {
 		this.id = id;
@@ -72,20 +68,25 @@ public class Course {
 		this.courseCategories = courseCategories;
 	}
 
+	public Set<ParticularCourse> getParticularCourses() {
+		return particularCourses;
+	}
+
+	public void setParticularCourses(Set<ParticularCourse> particularCourses) {
+		this.particularCourses = particularCourses;
+	}
+
+	@Override
+	public String toString() {
+		return "Course [id=" + id + ", name=" + name + "]";
+	}
+
 	public LocalDate getStartDate() {
 		return startDate;
 	}
 
 	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
-	}
-
-	public Set<Topic> getTopics() {
-		return topics;
-	}
-
-	public void setTopics(Set<Topic> topics) {
-		this.topics = topics;
 	}
 
 }

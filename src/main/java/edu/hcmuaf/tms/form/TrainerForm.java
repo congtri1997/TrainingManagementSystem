@@ -20,7 +20,7 @@ public class TrainerForm {
 	private String workingPlace;
 
 	private String workingTypeText;
-	
+
 	private String passwordText;
 
 	public static TrainerForm convertToTrainerForm(Trainer trainer) {
@@ -44,7 +44,6 @@ public class TrainerForm {
 	public TrainerForm() {
 	}
 
-	
 	public String getPasswordText() {
 		return passwordText;
 	}
@@ -155,6 +154,24 @@ public class TrainerForm {
 
 	public void setWorkingTypeText(String workingTypeText) {
 		this.workingTypeText = workingTypeText;
+	}
+
+	public static TrainerForm toDTO(Trainer trainer) {
+		TrainerForm trainerForm = new TrainerForm();
+		trainerForm.setId(trainer.getId());
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		trainerForm.setBirthDate(formatter.format(trainer.getBirthDate()));
+		trainerForm.setEmail(trainer.getEmail());
+		trainerForm.setFirstName(trainer.getFirstName());
+		trainerForm.setLastName(trainer.getLastName());
+		trainerForm.setPasswordText(trainer.getEncryptedPassword());
+		trainerForm.setPhoneNumber(trainer.getPhoneNumber());
+		trainerForm.setUserName(trainer.getUserName());
+		trainerForm.setWorkingPlace(trainer.getWorkingPlace());
+		WorkingType workingType = trainer.getWorkingType();
+		trainerForm.setWorkingType(workingType == null ? null : (workingType.getId() + ""));
+		trainerForm.setWorkingTypeText(workingType == null ? null : (workingType.getName() + ""));
+		return trainerForm;
 	}
 
 //	public Trainer doAddFirstTime(Role role, PasswordEncoder encoder) {

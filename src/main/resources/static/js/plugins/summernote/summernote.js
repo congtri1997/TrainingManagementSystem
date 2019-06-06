@@ -4028,7 +4028,8 @@
 
     var tplButtonInfo = {
       picture: function (lang) {
-        return tplIconButton('fa fa-picture-o icon-picture', {
+//        return tplIconButton('fa fa-picture-o icon-picture', {
+        return tplIconButton('fal fa-image icon-picture', {
           event: 'showImageDialog',
           title: lang.image.image
         });
@@ -4040,7 +4041,8 @@
         });
       },
       video: function (lang) {
-        return tplIconButton('fa fa-youtube-play icon-play', {
+        return tplIconButton('fab fa-youtube icon-play', {
+//        	return tplIconButton('fa fa-youtube-play icon-play', {
           event: 'showVideoDialog',
           title: lang.video.video
         });

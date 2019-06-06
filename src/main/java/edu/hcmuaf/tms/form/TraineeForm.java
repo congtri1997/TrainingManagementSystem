@@ -2,6 +2,7 @@ package edu.hcmuaf.tms.form;
 
 import java.time.format.DateTimeFormatter;
 
+import edu.hcmuaf.tms.entity.ProgrammingLanguage;
 import edu.hcmuaf.tms.entity.Trainee;
 
 public class TraineeForm {
@@ -18,30 +19,31 @@ public class TraineeForm {
 	private String detailsOfExp;
 	private String department;
 	private String address;
-	
-	private String programmingLanguageText;
-	private String programmingLanguage;
 
+	private ProgrammingLanguage programmingLanguage;
 	private String passwordText;
-	public static TraineeForm convertToTraineeForm(Trainee trainee) {
-		TraineeForm traineeForm = new TraineeForm();
-		traineeForm.setId(trainee.getId());
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		traineeForm.setBirthDate(formatter.format(trainee.getBirthDate()));
-		traineeForm.setFirstName(trainee.getFirstName());
-		traineeForm.setLastName(trainee.getLastName());
-		traineeForm.setPasswordText(trainee.getEncryptedPassword());
-		traineeForm.setUserName(trainee.getUserName());
-		traineeForm.setAddress(trainee.getAddress());
-		traineeForm.setDetailsOfExp(trainee.getDetailsOfExp());
-		traineeForm.setScoreOfToeic(trainee.getScoreOfToeic()+"");
-		traineeForm.setDepartment(trainee.getDepartment());
-		traineeForm.setEducation(trainee.getEducation());
-		traineeForm.setPasswordText(trainee.getEncryptedPassword());
-		traineeForm.setProgrammingLanguage(trainee.getProgrammingLanguage() != null ? trainee.getProgrammingLanguage().getId()+"": null);
-		traineeForm.setProgrammingLanguageText(trainee.getProgrammingLanguage() != null ? trainee.getProgrammingLanguage().getName() : null);
-		return traineeForm;
-	}
+
+//	public static TraineeForm convertToTraineeForm(Trainee trainee) {
+//		TraineeForm traineeForm = new TraineeForm();
+//		traineeForm.setId(trainee.getId());
+//		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//		traineeForm.setBirthDate(formatter.format(trainee.getBirthDate()));
+//		traineeForm.setFirstName(trainee.getFirstName());
+//		traineeForm.setLastName(trainee.getLastName());
+//		traineeForm.setPasswordText(trainee.getEncryptedPassword());
+//		traineeForm.setUserName(trainee.getUserName());
+//		traineeForm.setAddress(trainee.getAddress());
+//		traineeForm.setDetailsOfExp(trainee.getDetailsOfExp());
+//		traineeForm.setScoreOfToeic(trainee.getScoreOfToeic() + "");
+//		traineeForm.setDepartment(trainee.getDepartment());
+//		traineeForm.setEducation(trainee.getEducation());
+//		traineeForm.setPasswordText(trainee.getEncryptedPassword());
+//		traineeForm.setProgrammingLanguage(
+//				trainee.getProgrammingLanguage() != null ? trainee.getProgrammingLanguage().getId() + "" : null);
+//		traineeForm.setProgrammingLanguageText(
+//				trainee.getProgrammingLanguage() != null ? trainee.getProgrammingLanguage().getName() : null);
+//		return traineeForm;
+//	}
 
 	public TraineeForm() {
 	}
@@ -150,19 +152,11 @@ public class TraineeForm {
 		this.userName = userName;
 	}
 
-	public String getProgrammingLanguageText() {
-		return programmingLanguageText;
-	}
-
-	public void setProgrammingLanguageText(String programmingLanguageText) {
-		this.programmingLanguageText = programmingLanguageText;
-	}
-
-	public String getProgrammingLanguage() {
+	public ProgrammingLanguage getProgrammingLanguage() {
 		return programmingLanguage;
 	}
 
-	public void setProgrammingLanguage(String programmingLanguage) {
+	public void setProgrammingLanguage(ProgrammingLanguage programmingLanguage) {
 		this.programmingLanguage = programmingLanguage;
 	}
 
@@ -174,13 +168,26 @@ public class TraineeForm {
 				+ detailsOfExp + ", department=" + department + ", address=" + address + ", passwordText="
 				+ passwordText + "]";
 	}
-	
-	
 
-
-
-
-
-
+	public static TraineeForm toDTO(Trainee trainee) {
+		TraineeForm traineeForm = new TraineeForm();
+		traineeForm.setId(trainee.getId());
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		traineeForm.setBirthDate(formatter.format(trainee.getBirthDate()));
+		traineeForm.setFirstName(trainee.getFirstName());
+		traineeForm.setLastName(trainee.getLastName());
+		traineeForm.setPasswordText(trainee.getEncryptedPassword());
+		traineeForm.setUserName(trainee.getUserName());
+		traineeForm.setAddress(trainee.getAddress());
+		traineeForm.setDetailsOfExp(trainee.getDetailsOfExp());
+		traineeForm.setScoreOfToeic(trainee.getScoreOfToeic() + "");
+		traineeForm.setDepartment(trainee.getDepartment());
+		traineeForm.setEducation(trainee.getEducation());
+		traineeForm.setPasswordText(trainee.getEncryptedPassword());
+		if(trainee.getProgrammingLanguage() != null) {
+			traineeForm.setProgrammingLanguage(trainee.getProgrammingLanguage());
+		}
+		return traineeForm;
+	}
 
 }

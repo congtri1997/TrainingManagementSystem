@@ -2,9 +2,12 @@ package edu.hcmuaf.tms.controller;
 
 import java.util.HashMap;
 import java.util.Locale;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -40,7 +43,7 @@ public class TraineeController {
 
 	@Autowired
 	private ReloadableResourceBundleMessageSource message;
-	
+
 	@Autowired
 	private ProgrammingLanguageService programmingLanguageService;
 
@@ -93,7 +96,7 @@ public class TraineeController {
 		Trainee trainee = traineeService.getOne(id);
 		if (trainee == null)
 			return "redirect:/staff/trainee/list";
-		model.addAttribute("traineeForm", TraineeForm.convertToTraineeForm(trainee));
+		model.addAttribute("traineeForm", TraineeForm.toDTO(trainee));
 		model.addAttribute("programmingLanguages", programmingLanguageService.findAll());
 		return "trainee/trainee_update";
 	}
@@ -103,13 +106,13 @@ public class TraineeController {
 		Trainee trainee = traineeService.getOne(id);
 		if (trainee == null)
 			return "redirect:/staff/trainee/list";
-		model.addAttribute("traineeForm", TraineeForm.convertToTraineeForm(trainee));
+		model.addAttribute("traineeForm", TraineeForm.toDTO(trainee));
 		return "trainee/trainee_view";
 	}
 
 	@RequestMapping(value = { "/staff/trainee/update" }, method = RequestMethod.POST)
-	public @ResponseBody JsonRespone doEditTrainee(ModelMap model, @ModelAttribute("traineeForm") TraineeForm traineeForm,
-			BindingResult result) {
+	public @ResponseBody JsonRespone doEditTrainee(ModelMap model,
+			@ModelAttribute("traineeForm") TraineeForm traineeForm, BindingResult result) {
 		JsonRespone jsonRespone = new JsonRespone();
 		traineeUpdateValidator.validate(traineeForm, result);
 		if (result.hasErrors()) {
@@ -137,11 +140,11 @@ public class TraineeController {
 //	}
 
 	@RequestMapping(value = { "/staff/trainee/changePassword" }, method = RequestMethod.POST)
-	public @ResponseBody JsonRespone doChangePass(ModelMap model, @ModelAttribute("traineeForm") TraineeForm traineeForm,
-			BindingResult result) {
+	public @ResponseBody JsonRespone doChangePass(ModelMap model,
+			@ModelAttribute("traineeForm") TraineeForm traineeForm, BindingResult result) {
 		JsonRespone jsonRespone = new JsonRespone();
 		traineeChangePasswordValidator.validate(traineeForm, result);
-	
+
 		if (result.hasErrors()) {
 			HashMap<String, String> hashMap = new HashMap<>();
 			for (FieldError fieldError : result.getFieldErrors()) {
@@ -165,16 +168,22 @@ public class TraineeController {
 //		traineeService.changePassword(traineeForm);
 //		return "redirect:/staff/trainee/list";
 //	}
-	
+
 	@RequestMapping(value = { "/staff/trainee/delete/{id}" }, method = RequestMethod.DELETE)
-	public @ResponseBody JsonRespone doAddTrainee(ModelMap model,@PathVariable("id") long id) {
+	public @ResponseBody JsonRespone doAddTrainee(ModelMap model, @PathVariable("id") long id) {
 		JsonRespone jsonRespone = new JsonRespone();
 		traineeService.delete(id);
 		jsonRespone.setValidated(true);
 		jsonRespone.setMessage("Xóa thành công");
 		return jsonRespone;
 	}
-	
-	
+
+	// Data table section
+	@RequestMapping(value = "/staff/trainee/trainees", method = RequestMethod.GET)
+	public @ResponseBody DataTablesOutput<TraineeForm> list(@Valid DataTablesInput input) {
+		return traineeService.findAll(input);
+	}
+
+	// end data table section
 
 }

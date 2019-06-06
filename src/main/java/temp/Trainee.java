@@ -1,4 +1,4 @@
-package edu.hcmuaf.tms.entity;
+package temp;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -38,8 +38,6 @@ public class Trainee extends AbstarctUserInformation {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "trainee", cascade = CascadeType.PERSIST)
 	@JsonIgnore
 	private Set<Enrollment> enrollments = new HashSet<Enrollment>();
-	
-	
 	@Builder
 	public Trainee(long id, String userName, String encryptedPassword, boolean enabled, Role role, String firstName,
 			String lastName, LocalDate birthDate, String education, ProgrammingLanguage programmingLanguage,

@@ -4,7 +4,11 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -120,6 +124,10 @@ public class TrainerService {
 	
 	public boolean existsById(long id) {
 		return trainerRepository.existsById(id);
+	}
+
+	public DataTablesOutput<TrainerForm> findAll(DataTablesInput input) {
+		return trainerRepository.findAll(input,(Trainer t)  -> TrainerForm.toDTO(t));
 	}
 
 }
