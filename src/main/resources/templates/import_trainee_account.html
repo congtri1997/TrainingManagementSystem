@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- <head
+	th:replace="fragments/general.html :: common_header(~{::title},~{::link})"> -->
+<head
+	th:replace="fragments/general.html :: common_header(~{::title},~{::link})">
+<title>TMS - List Course</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/scroller/1.4.3/css/scroller.dataTables.min.css" />
+</head>
+<style>
+ .dota{
+ 	display:none;
+ }
+</style>
+<body>
+	<!-- START PAGE CONTAINER -->
+	<div class=" page-container">
+		<th:block th:replace="fragments/general.html :: sidebar"></th:block>
+		<!-- PAGE CONTENT -->
+		<div class="page-content">
+			<th:block
+				th:replace="fragments/general.html :: navigation-horizontal"></th:block>
+			<!-- PAGE CONTENT WRAPPER -->
+			<div class="page-content-wrap">
+
+				<div class="row">
+					<div class="col-md-12">
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<strong>Filter</strong>
+								</h3>
+								<ul class="panel-controls">
+									<li><a href="#" class="panel-collapse"><span
+											class="fa fa-angle-down"></span></a></li>
+									<li><a href="#" class="panel-remove"><span
+											class="fa fa-times"></span></a></li>
+								</ul>
+
+							</div>
+							<div class="panel-body">
+
+								<div class="form-group col-md-2">
+									<div class="btn btn-danger btn-file">
+										<i class="glyphicon glyphicon-folder-open"></i> &nbsp;Browse …
+										<input type="file" id="file">
+									</div>
+
+								</div>
+							</div>
+
+						</div>
+						<!-- START DEFAULT DATATABLE -->
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<strong>Danh sách thông tin học viên</strong>
+								</h3>
+								<ul class="panel-controls">
+									<li><a href="#" class="panel-collapse"><span
+											class="fa fa-angle-down"></span></a></li>
+									<li><a href="#" class="panel-refresh"><span
+											class="fas fa-sync"></span></a></li>
+									<li><a href="#" class="panel-remove"><span
+											class="fa fa-times"></span></a></li>
+								</ul>
+
+							</div>
+							<div class="panel-body">
+								<div id="dvExcel" class=""
+									style="max-height: 400px; min-height: 200px; overflow-y: auto;"></div>
+
+							</div>
+							<div class="panel-footer">
+								<button class="btn btn-default">
+									<i class="fal fa-arrow-left"></i> Quay lại
+								</button>
+								<button id="send"  class="btn btn-primary pull-right" type="button">
+										<i class="fal fa-level-up"></i> Gửi
+									</button>
+							</div>
+							<!-- END DEFAULT DATATABLE -->
+
+
+						</div>
+					</div>
+
+				</div>
+				<!-- PAGE CONTENT WRAPPER -->
+			</div>
+			<!-- END PAGE CONTENT -->
+		</div>
+		<!-- END PAGE CONTAINER -->
+	</div>
+	<th:block th:replace="fragments/general.html :: logout"></th:block>
+	<th:block
+		th:replace="fragments/general.html :: common_plugins(~{::script})">
+		<!-- START THIS PAGE PLUGINS-->
+		<script type='text/javascript' src='js/plugins/icheck/icheck.min.js'
+			th:src="@{/js/plugins/icheck/icheck.min.js}"></script>
+		<!-- <script type="text/javascript"
+			src="js/plugins/datatables/jquery.dataTables.min.js"
+			th:src="@{/js/plugins/datatables/jquery.dataTables.min.js}"></script>  -->
+		<script type="text/javascript"
+			src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"
+			th:src="@{/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js}"></script>
+		<!-- END THIS PAGE PLUGINS -->
+
+		<script type="text/javascript"
+			src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript"
+			src="https://cdn.datatables.net/scroller/1.4.3/js/dataTables.scroller.min.js"></script>
+		<script type='text/javascript'
+			src='js/plugins/bootstrap/bootstrap-select.js'
+			th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>
+		<script type="text/javascript" src="js/jquery.spring-friendly.js"
+			th:src="@{/js/jquery.spring-friendly.js}"></script>
+		<script type="text/javascript"
+			src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/xlsx.full.min.js"></script>
+		<script type="text/javascript"
+			src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.13.5/jszip.js"></script>
+
+		<script>
+			$("#file").change(function() {
+				//Reference the FileUpload element.
+				var fileUpload = $("#file")[0];
+
+				//Validate whether File is valid Excel file.
+				var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$/;
+				if (regex.test(fileUpload.value.toLowerCase())) {
+					if (typeof (FileReader) != "undefined") {
+						var reader = new FileReader();
+
+						//For Browsers other than IE.
+						if (reader.readAsBinaryString) {
+							reader.onload = function(e) {
+								ProcessExcel(e.target.result);
+							};
+							reader.readAsBinaryString(fileUpload.files[0]);
+						} else {
+							//For IE Browser.
+							reader.onload = function(e) {
+								var data = "";
+								var bytes = new Uint8Array(e.target.result);
+								for (var i = 0; i < bytes.byteLength; i++) {
+									data += String.fromCharCode(bytes[i]);
+								}
+								ProcessExcel(data);
+							};
+							reader.readAsArrayBuffer(fileUpload.files[0]);
+						}
+					} else {
+						alert("This browser does not support HTML5.");
+					}
+				} else {
+					alert("Please upload a valid Excel file.");
+				}
+			});
+
+			function ProcessExcel(data) {
+				//Read the Excel File data.
+				var workbook = XLSX.read(data, {
+					type : 'binary'
+				});
+
+				//Fetch the name of First Sheet.
+				var firstSheet = workbook.SheetNames[0];
+
+				//Read all rows from First Sheet into an JSON array.
+				var excelRows = XLSX.utils
+						.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
+
+				//Create a HTML Table element.
+				var table = $("<table />");
+				table.attr('class', 'table')
+				table.attr('id', 'myTable')
+
+				//Add the header row.
+				var row = $(table[0].insertRow(-1));
+				
+				//Add the header cells.
+				var headerCell = $("<th />");
+				headerCell.html("Number#");
+				row.append(headerCell);
+
+				var headerCell = $("<th />");
+				headerCell.html("Username");
+				row.append(headerCell);
+
+				var headerCell = $("<th />");
+				headerCell.html("Password");
+				row.append(headerCell);
+				
+				
+				var headerCell = $("<th />");
+				headerCell.html("Lỗi");
+				headerCell.attr('class', 'dota');
+				row.append(headerCell);
+
+				//Add the data rows from Excel file.
+				for (var i = 0; i < excelRows.length; i++) {
+					//Add the data row.
+					var row = $(table[0].insertRow(-1));
+
+					//Add the data cells.
+					var cell = $("<td />");
+					/* cell.html(excelRows[i].Id); */
+					cell.html(i+1);
+					row.append(cell);
+
+					cell = $("<td />");
+					cell.html(excelRows[i].Username);
+					row.append(cell);
+
+					cell = $("<td />");
+					cell.html(excelRows[i].Password);
+					row.append(cell);
+					
+					cell = $("<td />");
+					cell.html('');
+					cell.attr('class', 'dota');
+					cell.attr('id', 'error-'+(i+1));
+					row.append(cell);
+				}
+
+				var dvExcel = $("#dvExcel");
+				dvExcel.html("");
+				dvExcel.append(table);
+			};
+			
+			$('#send').click(function(){
+				var table = $('#myTable');
+				  
+				  var importTraineeAccounts =[];
+				 table.find('tr:not(:first-child)').each(function (i, el) {
+				        var $tds = $(this).find('td'),
+				            number = $tds.eq(0).text(),
+				            userName = $tds.eq(1).text(),
+				            password = $tds.eq(2).text();
+				        var myObject = {};
+				        myObject.number = number;
+				        myObject.userName = userName;
+				        myObject.password = password;
+				        importTraineeAccounts[i] = myObject; 
+				      
+				        // do something with productId, product, Quantity
+				    });
+				 	var result = {traineeForms:importTraineeAccounts}
+				  console.log(JSON.stringify(result));
+				  
+				  $.ajax({
+					  type: "POST",
+					  url: "/staff/import_trainee_account",
+					  data: JSON.stringify(result),
+					  success: function(response){ 
+						  
+						  if(response.validated) {
+							  alert('success');
+						  } else {
+							  $.each(response.errorMessages, function(key,
+										value) {
+									console.log(key+' - ' + value);
+									$("#error-"+key).text("");
+									/*  console.log('<span class="error">'+key +' - '+value+'</span>'); */
+									$("#error-"+key).text(value);
+									
+									$('.dota').css('display','table-cell');
+											 // div.foo elements that contain <p> tags
+								});
+						  }
+						  
+					  },
+					  dataType: "json",
+					  contentType : "application/json"
+					});
+			});
+		</script>
+	</th:block>
+
+</body>
+</html>
+

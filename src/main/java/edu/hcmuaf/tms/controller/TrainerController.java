@@ -50,14 +50,14 @@ public class TrainerController {
 	@RequestMapping(value = { "/staff/trainer/list" }, method = RequestMethod.GET)
 	public String listTrainer(ModelMap model) {
 		model.addAttribute("trainers", trainerService.listAll());
-		return "trainer/trainer_list";
+		return "trainer/list";
 	}
 
 	@RequestMapping(value = { "/staff/trainer/add" }, method = RequestMethod.GET)
 	public String addTrainer(ModelMap model) {
 		model.addAttribute("trainerForm", new TrainerForm());
 		model.addAttribute("workingTypes", workingTypeService.findAll());
-		return "trainer/trainer_add";
+		return "trainer/add";
 	}
 
 	@RequestMapping(value = { "/staff/trainer/add" }, method = RequestMethod.POST)
@@ -79,17 +79,6 @@ public class TrainerController {
 		return jsonRespone;
 	}
 
-	/*
-	 * @RequestMapping(value = { "/staff/trainer/add" }, method =
-	 * RequestMethod.POST) public String doAddTrainer(ModelMap
-	 * model, @ModelAttribute("trainerForm") TrainerForm trainerForm, BindingResult
-	 * result) { trainerAddValidator.validate(trainerForm, result); if
-	 * (result.hasErrors()) { model.addAttribute("workingTypes",
-	 * workingTypeService.findAll()); return "trainer/trainer_add"; }
-	 * 
-	 * trainerService.addTrainer(trainerForm); return "redirect:/staff/trainer/add";
-	 * }
-	 */
 	@RequestMapping(value = { "/staff/trainer/update/{id}" }, method = RequestMethod.GET)
 	public String editTrainer(ModelMap model, @PathVariable("id") long id) {
 		Trainer trainer = trainerService.getOne(id);
@@ -98,7 +87,7 @@ public class TrainerController {
 		model.addAttribute("trainerForm", TrainerForm.convertToTrainerForm(trainer));
 		model.addAttribute("workingTypes", workingTypeService.findAll());
 
-		return "trainer/trainer_update";
+		return "trainer/update";
 	}
 
 	@RequestMapping(value = { "/staff/trainer/view/{id}" }, method = RequestMethod.GET)
@@ -107,12 +96,12 @@ public class TrainerController {
 		if (trainer == null)
 			return "redirect:/staff/trainer/list";
 		model.addAttribute("trainerForm", TrainerForm.convertToTrainerForm(trainer));
-		return "trainer/trainer_view";
+		return "trainer/view";
 	}
 
 	@RequestMapping(value = { "/staff/trainer/update" }, method = RequestMethod.POST)
-	public @ResponseBody JsonRespone doEditTrainer(ModelMap model, @ModelAttribute("trainerForm") TrainerForm trainerForm,
-			BindingResult result) {
+	public @ResponseBody JsonRespone doEditTrainer(ModelMap model,
+			@ModelAttribute("trainerForm") TrainerForm trainerForm, BindingResult result) {
 		JsonRespone jsonRespone = new JsonRespone();
 		trainerUpdateValidator.validate(trainerForm, result);
 		if (result.hasErrors()) {
@@ -128,20 +117,10 @@ public class TrainerController {
 		}
 		return jsonRespone;
 	}
-//	@RequestMapping(value = { "/staff/trainer/update" }, method = RequestMethod.POST)
-//	public String doEditTrainer(ModelMap model, @ModelAttribute("trainerForm") TrainerForm trainerForm,
-//			BindingResult result) {
-//		trainerUpdateValidator.validate(trainerForm, result);
-//		if (result.hasErrors()) {
-//			return "trainer/trainer_update";
-//		}
-//		trainerService.updateTrainer(trainerForm);
-//		return "redirect:/staff/trainer/list";
-//	}
 
 	@RequestMapping(value = { "/staff/trainer/changePassword" }, method = RequestMethod.POST)
-	public @ResponseBody JsonRespone doChangePass(ModelMap model, @ModelAttribute("trainerForm") TrainerForm trainerForm,
-			BindingResult result) {
+	public @ResponseBody JsonRespone doChangePass(ModelMap model,
+			@ModelAttribute("trainerForm") TrainerForm trainerForm, BindingResult result) {
 		JsonRespone jsonRespone = new JsonRespone();
 		trainerChangePasswordValidator.validate(trainerForm, result);
 		if (result.hasErrors()) {
@@ -157,34 +136,21 @@ public class TrainerController {
 		}
 		return jsonRespone;
 	}
-//	@RequestMapping(value = { "/staff/trainer/changePassword" }, method = RequestMethod.POST)
-//	public String doChangePass(ModelMap model, @ModelAttribute("trainerForm") TrainerForm trainerForm,
-//			BindingResult result) {
-//		TrainerChangePasswordValidator.validate(trainerForm, result);
-//		if (result.hasErrors()) {
-//			return "trainer/trainer_update";
-//		}
-//		trainerService.changePassword(trainerForm);
-//		return "redirect:/staff/trainer/list";
-//	}
-	
+
 	@RequestMapping(value = { "/staff/trainer/delete/{id}" }, method = RequestMethod.DELETE)
-	public @ResponseBody JsonRespone doAddTrainer(ModelMap model,@PathVariable("id") long id) {
+	public @ResponseBody JsonRespone doAddTrainer(ModelMap model, @PathVariable("id") long id) {
 		JsonRespone jsonRespone = new JsonRespone();
 		trainerService.delete(id);
 		jsonRespone.setValidated(true);
 		jsonRespone.setMessage("Xóa thành công");
 		return jsonRespone;
 	}
-	
-	
-	//datatable
-	
-	
+
+	// datatable
+
 	@RequestMapping(value = "/staff/trainer/trainers", method = RequestMethod.GET)
-	public DataTablesOutput<TrainerForm> list(@Valid DataTablesInput input) {
+	public  @ResponseBody DataTablesOutput<TrainerForm> list(@Valid DataTablesInput input) {
 		return trainerService.findAll(input);
 	}
-
 
 }

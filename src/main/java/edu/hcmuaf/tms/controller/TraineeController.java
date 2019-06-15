@@ -51,14 +51,14 @@ public class TraineeController {
 	public String listTrainee(ModelMap model) {
 		model.addAttribute("trainees", traineeService.listAll());
 		model.addAttribute("programmingLanguages", programmingLanguageService.findAll());
-		return "trainee/trainee_list";
+		return "trainee/list";
 	}
 
 	@RequestMapping(value = { "/staff/trainee/add" }, method = RequestMethod.GET)
 	public String addTrainee(ModelMap model) {
 		model.addAttribute("traineeForm", new TraineeForm());
 		model.addAttribute("programmingLanguages", programmingLanguageService.findAll());
-		return "trainee/trainee_add";
+		return "trainee/add";
 	}
 
 	@RequestMapping(value = { "/staff/trainee/add" }, method = RequestMethod.POST)
@@ -80,17 +80,6 @@ public class TraineeController {
 		return jsonRespone;
 	}
 
-	/*
-	 * @RequestMapping(value = { "/staff/trainee/add" }, method =
-	 * RequestMethod.POST) public String doAddTrainee(ModelMap
-	 * model, @ModelAttribute("traineeForm") TraineeForm traineeForm, BindingResult
-	 * result) { traineeAddValidator.validate(traineeForm, result); if
-	 * (result.hasErrors()) { model.addAttribute("workingTypes",
-	 * workingTypeService.findAll()); return "trainee/trainee_add"; }
-	 * 
-	 * traineeService.addTrainee(traineeForm); return "redirect:/staff/trainee/add";
-	 * }
-	 */
 	@RequestMapping(value = { "/staff/trainee/update/{id}" }, method = RequestMethod.GET)
 	public String editTrainee(ModelMap model, @PathVariable("id") long id) {
 		Trainee trainee = traineeService.getOne(id);
@@ -98,7 +87,7 @@ public class TraineeController {
 			return "redirect:/staff/trainee/list";
 		model.addAttribute("traineeForm", TraineeForm.toDTO(trainee));
 		model.addAttribute("programmingLanguages", programmingLanguageService.findAll());
-		return "trainee/trainee_update";
+		return "trainee/update";
 	}
 
 	@RequestMapping(value = { "/staff/trainee/view/{id}" }, method = RequestMethod.GET)
@@ -107,7 +96,7 @@ public class TraineeController {
 		if (trainee == null)
 			return "redirect:/staff/trainee/list";
 		model.addAttribute("traineeForm", TraineeForm.toDTO(trainee));
-		return "trainee/trainee_view";
+		return "trainee/view";
 	}
 
 	@RequestMapping(value = { "/staff/trainee/update" }, method = RequestMethod.POST)
@@ -128,16 +117,6 @@ public class TraineeController {
 		}
 		return jsonRespone;
 	}
-//	@RequestMapping(value = { "/staff/trainee/update" }, method = RequestMethod.POST)
-//	public String doEditTrainee(ModelMap model, @ModelAttribute("traineeForm") TraineeForm traineeForm,
-//			BindingResult result) {
-//		traineeUpdateValidator.validate(traineeForm, result);
-//		if (result.hasErrors()) {
-//			return "trainee/trainee_update";
-//		}
-//		traineeService.updateTrainee(traineeForm);
-//		return "redirect:/staff/trainee/list";
-//	}
 
 	@RequestMapping(value = { "/staff/trainee/changePassword" }, method = RequestMethod.POST)
 	public @ResponseBody JsonRespone doChangePass(ModelMap model,
@@ -158,16 +137,6 @@ public class TraineeController {
 		}
 		return jsonRespone;
 	}
-//	@RequestMapping(value = { "/staff/trainee/changePassword" }, method = RequestMethod.POST)
-//	public String doChangePass(ModelMap model, @ModelAttribute("traineeForm") TraineeForm traineeForm,
-//			BindingResult result) {
-//		TraineeChangePasswordValidator.validate(traineeForm, result);
-//		if (result.hasErrors()) {
-//			return "trainee/trainee_update";
-//		}
-//		traineeService.changePassword(traineeForm);
-//		return "redirect:/staff/trainee/list";
-//	}
 
 	@RequestMapping(value = { "/staff/trainee/delete/{id}" }, method = RequestMethod.DELETE)
 	public @ResponseBody JsonRespone doAddTrainee(ModelMap model, @PathVariable("id") long id) {
@@ -179,8 +148,13 @@ public class TraineeController {
 	}
 
 	// Data table section
+	@RequestMapping(value = "/staff/trainee/traineesSpec", method = RequestMethod.GET)
+	public @ResponseBody DataTablesOutput<TraineeForm> findTraineeWWithSpec(@Valid DataTablesInput input) {
+		return traineeService.findAllWithSpecification(input);
+	}
+	
 	@RequestMapping(value = "/staff/trainee/trainees", method = RequestMethod.GET)
-	public @ResponseBody DataTablesOutput<TraineeForm> list(@Valid DataTablesInput input) {
+	public @ResponseBody DataTablesOutput<TraineeForm> findTrainee(@Valid DataTablesInput input) {
 		return traineeService.findAll(input);
 	}
 

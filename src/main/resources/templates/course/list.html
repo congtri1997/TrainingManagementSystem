@@ -4,7 +4,7 @@
 	th:replace="fragments/general.html :: common_header(~{::title},~{::link})"> -->
 <head
 	th:replace="fragments/general.html :: common_header(~{::title},~{::link})">
-<title>TMS - List Trainer</title>
+<title>TMS - List Course</title>
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/scroller/1.4.3/css/scroller.dataTables.min.css" />
 </head>
@@ -21,7 +21,7 @@
 
 				<div class="row">
 					<div class="col-md-12">
-						<div class="panel panel-default">
+				<!-- 		<div class="panel panel-default">
 							<div class="panel-heading">
 								<h3 class="panel-title">
 									<strong>Filter</strong>
@@ -52,12 +52,12 @@
 								</div>
 							</div>
 
-						</div>
+						</div> -->
 						<!-- START DEFAULT DATATABLE -->
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h3 class="panel-title">
-									<strong>Danh sách thông tin học viên</strong>
+									<strong>Danh sách thông tin các khóa học</strong>
 								</h3>
 								<ul class="panel-controls">
 									<li><a href="#" class="panel-collapse"><span
@@ -77,49 +77,18 @@
 										<thead>
 											<tr>
 												<th>ID</th>
-												<th>Tên tài khoản</th>
-												<th>Họ</th>
-												<th>Tên</th>
-												<th>Ngôn ngữ lập trình chính</th>
-												<th>Điểm toeic</th>
+												<th>Tên khóa học</th>
+												<th>Ngày bắt đầu</th>
 												<th>Thao tác</th>
 											</tr>
 										</thead>
-										<!-- 		<tbody>
-											<tr>
-												<td>###1</td>
-												<td>userName#1</td>
-												<td>fullName#1</td>
-												<td>email#1@exmaple.com</td>
-												<td>
-													<button type="button"
-														class="btn btn-default btn-rounded btn-condensed btn-sm">
-														<i class="fal fa-info fa-2x"></i>
-													</button>
-													<button type="button"
-														class="btn btn-default btn-rounded btn-condensed btn-sm">
-														<i class="fal fa-edit fa-2x"></i>
-													</button>
-													<button type="button"
-														class="btn btn-danger  btn-rounded btn-condensed btn-sm">
-														<i class="fal fa-trash-alt fa-2x"></i>
-													</button>
-												</td>
-											</tr>
-
-										
-
-
-											
-
-										</tbody> -->
 									</table>
 								</div>
 
 							</div>
 							<div class="panel-footer">
 								<button class="btn btn-default">
-									<i class="fal fa-arrow-left"></i> Quay láº¡i
+									<i class="fal fa-arrow-left"></i> Quay lại
 								</button>
 							</div>
 						</div>
@@ -162,7 +131,7 @@
 			var table = $('table#trainees')
 					.DataTable(
 							{
-								ajax : '/staff/trainee/trainees',
+								ajax : '/staff/course/courses',
 								serverSide : true,
 								scrollY : 500,
 								deferRender : true,
@@ -172,28 +141,15 @@
 											data : 'id'
 										},
 										{
-											data : 'userName'
+											data : 'name'
 										},
 										{
-											data : 'firstName'
-										},
-										{
-											data : 'lastName'
-										},
-										{
-											data : 'programmingLanguage.name',
-											render : function(data) {
-												return data ? data : '-';
-											}
-										},
-										{
-											data : 'scoreOfToeic',
-											searchable: false
+											data : 'startDate'
 										},
 										{
 											data : 'id',
 											render : function(data) {
-												return '<td> <button type="button" onclick="location.href=\'/staff/trainee/view/'+data+'\'" class="btn btn-default btn-rounded btn-condensed btn-sm"><i class="fal fa-info fa-2x"></i></button><button onclick="location.href=\'/staff/trainee/update/'+data+'\'" type="button"class="btn btn-default btn-rounded btn-condensed btn-sm"><i class="fal fa-edit fa-2x"></i></button><button type="button" class="btn btn-danger  btn-rounded btn-condensed btn-sm" onclick="deleteData('
+												return '<td> <button type="button" onclick="location.href=\'/staff/course/view/'+data+'\'" class="btn btn-default btn-rounded btn-condensed btn-sm"><i class="fal fa-info fa-2x"></i></button><button onclick="location.href=\'/staff/course/update/'+data+'\'" type="button"class="btn btn-default btn-rounded btn-condensed btn-sm"><i class="fal fa-edit fa-2x"></i></button><button type="button" class="btn btn-danger  btn-rounded btn-condensed btn-sm" onclick="deleteData('
 														+ data
 														+ ')"><i class="fal fa-trash-alt fa-2x"></i></button></td>';
 											}
@@ -219,7 +175,7 @@
 															$
 																	.ajax({
 																		type : "DELETE",
-																		url : "/staff/trainee/delete/"
+																		url : "/staff/course/delete/"
 																				+ id,
 																		success : function(
 																				data) {

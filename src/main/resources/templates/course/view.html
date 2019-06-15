@@ -4,7 +4,7 @@
 	th:replace="fragments/general.html :: common_header(~{::title},~{::link})"> -->
 <head
 	th:replace="fragments/general.html :: common_header(~{::title},~{})">
-<title>TMS - Update Trainer</title>
+<title>TMS - View Course</title>
 </head>
 <body>
 	<!-- START PAGE CONTAINER -->
@@ -20,7 +20,7 @@
 				<div class="row">
 					<div class="col-md-12">
 
-						<div class="panel panel-default" th:object="${traineeForm}">
+						<div class="panel panel-default" th:object="${courseForm}">
 							<div class="panel-heading">
 								<h3 class="panel-title">
 									<strong>Xem thông tin chi tiết họ viên</strong>
@@ -39,51 +39,19 @@
 								<table class="table">
 									<tr>
 										<th>ID:</th>
-										<td th:text="*{Id}">Bill Gates</td>
+										<td th:text="*{id}">Bill Gates</td>
 									</tr>
 									<tr>
-										<th>Tên tài khoản:</th>
-										<td th:text="*{userName}">555 77 854</td>
+										<th>Tên khóa học:</th>
+										<td th:text="*{name}">555 77 854</td>
 									</tr>
 									<tr>
-										<th>Mật khẩu:</th>
-										<td th:text="*{passwordText}">555 77 854</td>
+										<th>Ngày bắt đầu:</th>
+										<td th:text="*{startDate}">555 77 854</td>
 									</tr>
 									<tr>
-										<th>Họ:</th>
-										<td th:text="*{lastName}">555 77 855</td>
-									</tr>
-									<tr>
-										<th>Tên:</th>
-										<td th:text="*{firstName}">555 77 855</td>
-									</tr>
-									<tr>
-										<th>Ngày sinh:</th>
-										<td th:text="*{birthDate}">555 77 855</td>
-									</tr>
-									<tr>
-										<th>Trường học:</th>
-										<td th:text="*{education}">555 77 855</td>
-									</tr>
-									<tr>
-										<th>Điểm toeic:</th>
-										<td th:text="*{scoreOfToeic}">555 77 855</td>
-									</tr>
-									<tr>
-										<th>Ngành học:</th>
-										<td th:text="*{department}">555 77 855</td>
-									</tr>
-									<tr>
-										<th>Địa chỉ:</th>
-										<td th:text="*{address}">555 77 855</td>
-									</tr>
-									<tr>
-										<th>Ngôn ngữ lập trình chính:</th>
-										<td th:text="*{programmingLanguage.name}">555 77 855</td>
-									</tr>
-									<tr>
-										<th>Chi tiết kinh nghiệm:</th>
-										<td th:utext="*{detailsOfExp}">555 77 855</td>
+										<th>Mô tả:</th>
+										<td th:utext="*{description}">555 77 855</td>
 									</tr>
 								</table>
 
@@ -93,7 +61,7 @@
 								<div class="panel-footer">
 
 									<button class="btn btn-default"
-										onclick="location.href='/staff/trainee/list'">
+										onclick="location.href='/staff/course/list'">
 										<i class="fal fa-arrow-left"></i> Quay lại
 									</button>
 

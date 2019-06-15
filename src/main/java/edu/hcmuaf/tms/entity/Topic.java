@@ -2,6 +2,7 @@ package edu.hcmuaf.tms.entity;
 
 import java.time.LocalDate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,13 +26,13 @@ public class Topic {
 
 	private int duration;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "trainerID")
-	@JsonIgnore
 	private Trainer trainer;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "courseID")
+	@JsonIgnore
 	private Course course;
 
 	public Topic(long id, String name) {

@@ -4,7 +4,7 @@
 	th:replace="fragments/general.html :: common_header(~{::title},~{::link})"> -->
 <head
 	th:replace="fragments/general.html :: common_header(~{::title},~{::link})">
-<title>TMS - List Trainer</title>
+<title>TMS - List Trainee</title>
 <link rel="stylesheet" type="text/css"
 	href="https://cdn.datatables.net/scroller/1.4.3/css/scroller.dataTables.min.css" />
 </head>
@@ -26,7 +26,7 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h3 class="panel-title">
-									<strong>Danh sách thông tin giảng viên</strong>
+									<strong>Lịch dạy</strong>
 								</h3>
 								<ul class="panel-controls">
 									<li><a href="#" class="panel-collapse"><span
@@ -36,18 +36,21 @@
 									<li><a href="#" class="panel-remove"><span
 											class="fa fa-times"></span></a></li>
 								</ul>
+
 							</div>
 							<div class="panel-body">
 								<div class="table-responsive">
-									<table id="trainers" class="table">
+
+									<div class="row">
+										<div class="col-md-6"></div>
+									</div>
+									<table id="topics" class="table">
 										<thead>
 											<tr>
-												<th>ID</th>
-												<th>Tên tài khoản</th>
-												<th>Họ</th>
-												<th>Tên</th>
-												<th>Email</th>
-												<th>Thao tác</th>
+												<th>Tên khóa học</th>
+												<th>Tên topic</th>
+												<th>Ngày bắt đầu</th>
+												<th>Số tuần</th>
 											</tr>
 										</thead>
 									</table>
@@ -71,6 +74,8 @@
 		</div>
 		<!-- END PAGE CONTENT -->
 	</div>
+
+
 	<!-- END PAGE CONTAINER -->
 	<th:block th:replace="fragments/general.html :: logout"></th:block>
 	<th:block
@@ -90,69 +95,39 @@
 			src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript"
 			src="https://cdn.datatables.net/scroller/1.4.3/js/dataTables.scroller.min.js"></script>
-
+		<script type='text/javascript'
+			src='js/plugins/bootstrap/bootstrap-select.js'
+			th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>
 		<script type="text/javascript" src="js/jquery.spring-friendly.js"
 			th:src="@{/js/jquery.spring-friendly.js}"></script>
 		<script>
-			$('table#trainers')
+			var table = $('table#topics')
 					.DataTable(
 							{
-								ajax : '/staff/trainer/trainers',
+								ajax : '/staff/topic/trainer/11',
 								serverSide : true,
 								scrollY : 500,
 								deferRender : true,
 								scroller : true,
 								columns : [
 										{
-											data : 'id'
-										},
-										{
-											data : 'userName'
-										},
-										{
-											data : 'firstName'
-										},
-										{
-											data : 'lastName'
-										},
-										{
-											data : 'email'
-										},
-										{
-											data : 'id',
+											data : 'course.name',
 											render : function(data) {
-												return  '<td> <button type="button" onclick="location.href=\'/staff/trainer/view/'+data+'\'" class="btn btn-default btn-rounded btn-condensed btn-sm"><i class="fal fa-info fa-2x"></i></button><button onclick="location.href=\'/staff/trainer/update/'+data+'\'" type="button"class="btn btn-default btn-rounded btn-condensed btn-sm"><i class="fal fa-edit fa-2x"></i></button><button type="button" class="btn btn-danger  btn-rounded btn-condensed btn-sm" onclick="deleteData('+data+')"><i class="fal fa-trash-alt fa-2x"></i></button></td>';
+												return data ? data : '-';
 											}
+										},
+										{
+											data : 'name'
+										},
+										{
+											data : 'startDate'
+										},
+										{
+											data : 'duration'
 										} ]
 							});
-			
-			function deleteData(id) {
-				toastr.warning("<div>Are you sure you want to delete this?</div>" +
-						"<div class='btn-group pull-right'>" +
-						"<button type='button' id='confirmationYes' class='btn btn-xs btn-default'><i class='fas fa-thumbs-up'></i> Yes</button>" +
-						"<button type='button' class='btn btn-xs btn-default clear'><i class='fas fa-trash-alt'></i> No</button>" +
-						"</div>", "Delete Confirmation", {
-					allowHtml:true,
-					closeButton:true,
-					onShown: function() {
-						$("#confirmationYes").click(function() {
-							$.ajax({
-								type : "DELETE",
-								url : "/staff/trainer/delete/"+id,
-								success : function(data) {
-									if(data.validated) {
-										$('table#trainers').DataTable().ajax.reload();
-									toastr.success(data.message, "Delete Confirmation", {
-										closeButton:true
-									});
-									}
-								}
-							});
-						});
-					}
-				});
-			}
 		</script>
 	</th:block>
+
 </body>
 </html>

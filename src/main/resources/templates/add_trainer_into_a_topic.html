@@ -21,7 +21,7 @@
 
 				<div class="row">
 					<div class="col-md-12">
-						<div class="panel panel-default">
+						<!-- <div class="panel panel-default">
 							<div class="panel-heading">
 								<h3 class="panel-title">
 									<strong>Filter</strong>
@@ -36,28 +36,30 @@
 							</div>
 							<div class="panel-body">
 								<div class="col-md-2">
-								<label>Ngôn ngữ lập trình chính</label>
-									<select class="form-control " id="programmingLanguageSelector" multiple="multiple">
+									<label>Ngôn ngữ lập trình chính</label> <select
+										class="form-control " id="programmingLanguageSelector"
+										multiple="multiple">
 										<option th:each="p : ${programmingLanguages}"
 											th:value="${p.id}" th:text="${p.name}"></option>
-											
-											<option value="">NULL</option>
+
+										<option value="">NULL</option>
 									</select>
 								</div>
 								<div class="form-group col-md-2">
-									<label>Điểm toeic</label> <input type="number"
-										min="10" max="990" class="form-control" id="minScoreOfToeic" placeholder="From">
-									<input type="number" min="10" max="990" class="form-control"
-										id="maxScoreOfToeic" placeholder="To">
+									<label>Điểm toeic</label> <input type="number" min="10"
+										max="990" class="form-control" id="minScoreOfToeic"
+										placeholder="From"> <input type="number" min="10"
+										max="990" class="form-control" id="maxScoreOfToeic"
+										placeholder="To">
 								</div>
 							</div>
 
-						</div>
+						</div> -->
 						<!-- START DEFAULT DATATABLE -->
 						<div class="panel panel-default">
 							<div class="panel-heading">
 								<h3 class="panel-title">
-									<strong>Danh sách thông tin học viên</strong>
+									<strong>Danh sách thông tin các topic</strong>
 								</h3>
 								<ul class="panel-controls">
 									<li><a href="#" class="panel-collapse"><span
@@ -73,20 +75,16 @@
 								<div class="table-responsive">
 
 									<div class="row">
-										<div class="col-md-6">
-										
-										
-										</div>
+										<div class="col-md-6"></div>
 									</div>
 									<table id="trainees" class="table">
 										<thead>
 											<tr>
-												<th>ID</th>
-												<th>Tên tài khoản</th>
-												<th>Họ</th>
-												<th>Tên</th>
-												<th>Ngôn ngữ lập trình chính</th>
-												<th>Điểm toeic</th>
+												<th>Tên khóa học</th>
+												<th>Tên topic</th>
+												<th>Ngày bắt đầu</th>
+												<th>Số tuần</th>
+												<th>Giảng viên</th>
 												<th>Thao tác</th>
 											</tr>
 										</thead>
@@ -111,6 +109,38 @@
 		</div>
 		<!-- END PAGE CONTENT -->
 	</div>
+
+
+
+	<div class="modal" id="modal_large" tabindex="-1" role="dialog"
+		aria-labelledby="largeModalHead" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="largeModalHead">Phân công giảng
+						viên dạy topic</h4>
+				</div>
+				<form id="add_trainer_into_a_topic" th:action="@{/staff/add_trainer_into_a_topic}" method="post" th:object="${topicForm}">
+					<div class="modal-body">
+						<select id="selectbox1" class="form-control " th:field="*{trainer}">
+							<option value="">Chọn giảng viên</option>
+							<option th:each="t : ${trainers}" th:value="${t.id}"
+								th:text="${t.userName+' - '+ t.firstName +' ' + t.lastName}"></option>
+						</select>
+					</div>
+
+					<input type="hidden" name="id" th:field="*{id}"/>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+						<button type="submit" class="btn btn-default">Gửi</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	<!-- END PAGE CONTAINER -->
 	<th:block th:replace="fragments/general.html :: logout"></th:block>
 	<th:block
@@ -128,7 +158,7 @@
 
 		<script type="text/javascript"
 			src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-			<script type="text/javascript"
+		<script type="text/javascript"
 			src="https://cdn.datatables.net/scroller/1.4.3/js/dataTables.scroller.min.js"></script>
 		<script type='text/javascript'
 			src='js/plugins/bootstrap/bootstrap-select.js'
@@ -136,47 +166,86 @@
 		<script type="text/javascript" src="js/jquery.spring-friendly.js"
 			th:src="@{/js/jquery.spring-friendly.js}"></script>
 		<script>
+		
+		
+		
+			$(function() {
+				var frm = $('#add_trainer_into_a_topic');
+				frm.submit(function(ev) {
+					$.ajax({
+						type : frm.attr('method'),
+						url : frm.attr('action'),
+						data : frm.serialize(),
+						success : function(data) {
+							$(
+							'table#trainees')
+							.DataTable().ajax
+							.reload();
+						}
+					});
+					ev.preventDefault();
+				});
+			});
+			$('#modal_large').on('show.bs.modal', function(e) {
+			
+				//get data-id attribute of the clicked element
+				var topicID = $(e.relatedTarget).data('topic-id');
+			
+				//populate the textbox
+				$(e.currentTarget).find('input[name="id"]').val(topicID);
+			});
+			var t_trainer = {};
 			var table = $('table#trainees')
 					.DataTable(
 							{
-								ajax : '/staff/trainee/traineesSpec',
+								ajax : '/staff/topic/topics',
 								serverSide : true,
 								scrollY : 500,
 								deferRender : true,
 								scroller : true,
 								columns : [
 										{
-											data : 'id'
-										},
-										{
-											data : 'userName'
-										},
-										{
-											data : 'firstName'
-										},
-										{
-											data : 'lastName'
-										},
-										{
-											data : 'programmingLanguage.name',
+											data : 'course.name',
 											render : function(data) {
 												return data ? data : '-';
 											}
 										},
 										{
-											data : 'scoreOfToeic',
-											searchable: false
+											data : 'name'
+										},
+										{
+											data : 'startDate'
+										},
+										{
+											data : 'duration'
+										},
+										{
+											data : 'trainer',
+											searchable : false,
+											render : function(data) {
+												/* var mess = '<select><option th:each="t : ${trainers}" th:value="${p.id}" th:text="${p.name}"></option></select>';
+												
+												 */
+												return data ? data.firstName
+														: 'chưa có';
+												/* return mess; */
+											}
 										},
 										{
 											data : 'id',
 											render : function(data) {
-												return '<td> <button type="button" onclick="location.href=\'/staff/trainee/view/'+data+'\'" class="btn btn-default btn-rounded btn-condensed btn-sm"><i class="fal fa-info fa-2x"></i></button><button onclick="location.href=\'/staff/trainee/update/'+data+'\'" type="button"class="btn btn-default btn-rounded btn-condensed btn-sm"><i class="fal fa-edit fa-2x"></i></button><button type="button" class="btn btn-danger  btn-rounded btn-condensed btn-sm" onclick="deleteData('
-														+ data
-														+ ')"><i class="fal fa-trash-alt fa-2x"></i></button></td>';
+												return '<td> <button type="button"  data-toggle="modal" data-target="#modal_large" data-topic-id="'+data+'" class="btn btn-default btn-rounded btn-condensed btn-sm"><i class="fal fa-user-plus fa-2x"></i></button></td>';
 											}
 										} ]
 							});
+			 $('#trainees tbody').on( 'click', 'button', function () {
+			        var data = table.row( $(this).parents('tr') ).data();
+			        if(data.trainer)
+			        $('#selectbox1 option[value="'+data.trainer.id+'"]').prop('selected', true);
+			        else
+			        	 $('#selectbox1 option[value=""]').prop('selected', true);
 
+			    } );
 			function deleteData(id) {
 				toastr
 						.warning(
@@ -229,21 +298,24 @@
 									filter += $(this).text() + "+";
 									/* filter += ' ' + "+"; */
 								});
-					filter = filter.substring(0, filter.length - 1); 
+						filter = filter.substring(0, filter.length - 1);
 						console.log(filter);
 						table.column(4).search(filter).draw();
 					});
-			
-			 	var minScoreOfToeicInput = $('input#minScoreOfToeic');
-		        var maxScoreOfToeicInput = $('input#maxScoreOfToeic');
 
-		        var onBoundChange = function () {
-		        	console.log(minScoreOfToeicInput.val()+';'+maxScoreOfToeicInput.val())
-		            table.column(5).search(minScoreOfToeicInput.val() + ';' + maxScoreOfToeicInput.val()).draw();
-		        };
+			var minScoreOfToeicInput = $('input#minScoreOfToeic');
+			var maxScoreOfToeicInput = $('input#maxScoreOfToeic');
 
-		        minScoreOfToeicInput.on('input', onBoundChange);
-		        maxScoreOfToeicInput.on('input', onBoundChange);
+			var onBoundChange = function() {
+				console.log(minScoreOfToeicInput.val() + ';'
+						+ maxScoreOfToeicInput.val())
+				table.column(5).search(
+						minScoreOfToeicInput.val() + ';'
+								+ maxScoreOfToeicInput.val()).draw();
+			};
+
+			minScoreOfToeicInput.on('input', onBoundChange);
+			maxScoreOfToeicInput.on('input', onBoundChange);
 		</script>
 	</th:block>
 

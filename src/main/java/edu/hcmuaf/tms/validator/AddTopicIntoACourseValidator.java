@@ -5,28 +5,22 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import edu.hcmuaf.tms.form.CourseForm;
+import edu.hcmuaf.tms.form.TopicForm;
 
 @Component
-public class CourseAddValidator implements Validator {
-
-	/*
-	 * @Autowired private CourseService courseService;
-	 */
-
+public class AddTopicIntoACourseValidator implements Validator {
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return clazz == CourseForm.class;
+		return clazz == TopicForm.class;
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
 
 //		CourseForm courseForm = (CourseForm) target;
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotEmpty.courseForm.name");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "startDate", "NotEmpty.courseForm.startDate");
-		
-		
-	}
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotEmpty.topicForm.name");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "startDate", "NotEmpty.topicForm.startDate");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "duration", "NotEmpty.topicForm.duration");
 
+	}
 }

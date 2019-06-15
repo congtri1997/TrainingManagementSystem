@@ -4,7 +4,7 @@
 	th:replace="fragments/general.html :: common_header(~{::title},~{::link})"> -->
 <head
 	th:replace="fragments/general.html :: common_header(~{::title},~{})">
-<title>TMS - Update Trainer</title>
+<title>TMS - Update Course</title>
 </head>
 <body>
 	<!-- START PAGE CONTAINER -->
@@ -19,8 +19,8 @@
 
 				<div class="row">
 					<div class="col-md-12">
-						<form th:action="@{/staff/trainee/update}" id="jvalidate1"
-							class="form-horizontal" th:object="${traineeForm}" method="post">
+						<form th:action="@{/staff/course/update}" id="jvalidate1"
+							class="form-horizontal" th:object="${courseForm}" method="post">
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3 class="panel-title">
@@ -46,7 +46,8 @@
 													class="fa fa-pencil"></span></span> <input type="text"
 													th:field="*{Id}" class="form-control" readonly />
 											</div>
-<label id="id-error" class="form-text text-danger" style="display:none"></label>
+											<label id="id-error" class="form-text text-danger"
+												style="display: none"></label>
 
 											<!-- <span class="help-block" th:if="${#fields.hasErrors('Id')}"
 												th:errors="*{Id}">This is sample of text field</span> -->
@@ -54,244 +55,53 @@
 									</div>
 
 									<div class="form-group">
-										<label class="col-md-3 col-xs-12 control-label">Tên tài khoản</label>
+										<label class="col-md-3 col-xs-12 control-label">Tên
+											khóa học</label>
 										<div class="col-md-6 col-xs-12">
 											<div class="input-group">
 												<span class="input-group-addon"><span
 													class="fa fa-pencil"></span></span> <input type="text"
-													th:field="*{userName}" class="form-control" readonly />
+													th:field="*{name}" class="form-control" />
 											</div>
-											<!-- <span class="help-block"
-												th:if="${#fields.hasErrors('userName')}"
-												th:errors="*{userName}">This is sample of text field</span> -->
-										</div>
-									</div>
-
-									<div class="form-group">
-										<label class="col-md-3 col-xs-12 control-label">Họ</label>
-										<div class="col-md-6 col-xs-12">
-											<div class="input-group">
-												<span class="input-group-addon"><span
-													class="fa fa-pencil"></span></span> <input type="text"
-													th:field="*{lastName}" class="form-control" />
-											</div>
-											<label id="lastName-error" class="form-text text-danger"
-												for="lastName" th:if="${#fields.hasErrors('lastName')}"
-												th:errors="*{lastName}">This field is required.</label>
-												<label id="lastName-error" class="form-text text-danger" style="display:none"></label>
-											<!-- <span
-												class="help-block">Field policy to be determined
-												later!!!</span> -->
+											<label id="name-error" class="form-text text-danger"
+												for="userName" th:if="${#fields.hasErrors('name')}"
+												th:errors="*{name}">This field is required.</label> <label
+												id="name-error" class="form-text text-danger"
+												style="display: none"></label>
 										</div>
 									</div>
 									<div class="form-group">
-										<label class="col-md-3 col-xs-12 control-label">Tên</label>
-										<div class="col-md-6 col-xs-12">
-											<div class="input-group">
-												<span class="input-group-addon"><span
-													class="fa fa-pencil"></span></span> <input type="text"
-													th:field="*{firstName}" class="form-control" />
-											</div>
-											<label id="firstName-error" class="form-text text-danger"
-												for="firstName" th:if="${#fields.hasErrors('firstName')}"
-												th:errors="*{firstName}">This field is required.</label>
-												<label id="firstName-error" class="form-text text-danger" style="display:none"></label>
-											<!-- <span
-												class="help-block">Field policy to be determined
-												later!!!</span> -->
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-md-3 col-xs-12 control-label">Ngày sinh</label>
+										<label class="col-md-3 col-xs-12 control-label">Ngày
+											bắt đầu</label>
 										<div class="col-md-6 col-xs-12">
 											<div class="input-group date">
 												<span class="input-group-addon"><span
 													class="fas fa-calendar-day"></span></span> <input type="text"
-													th:field="*{birthDate}" id="dp" class="form-control" />
+													th:field="*{startDate}" id="dp" class="form-control" />
 											</div>
-											<label id="birthDate-error" class="form-text text-danger"
-												for="birthDate" th:if="${#fields.hasErrors('birthDate')}"
-												th:errors="*{birthDate}">This field is required.</label>
-												<label id="birthDate-error" class="form-text text-danger" style="display:none"></label>
-											<!-- <span
-												class="help-block">Field policy to be determined
-												later!!!</span> -->
-										</div>
-									</div>
-									
-									
-									<div class="form-group">
-										<label class="col-md-3 col-xs-12 control-label">Điểm toeic</label>
-										<div class="col-md-6 col-xs-12">
-											<div class="input-group">
-												<span class="input-group-addon"><span
-													class="fas fa-map-marker-check"></span></span> <input type="text"
-													th:field="*{scoreOfToeic}" class="form-control" />
-											</div>
-											<label id="scoreOfToeic-error" class="form-text text-danger"
-												for="scoreOfToeic"
-												th:if="${#fields.hasErrors('scoreOfToeic')}"
-												th:errors="*{scoreOfToeic}">This field is required.</label>
-												<label id="scoreOfToeic-error" class="form-text text-danger" style="display:none"></label>
-											<!-- <span class="help-block">Field policy to be determined
-												later!!!</span> -->
-										</div>
-									</div>
-									
-									<div class="form-group">
-										<label class="col-md-3 col-xs-12 control-label">Ngành học</label>
-										<div class="col-md-6 col-xs-12">
-											<div class="input-group">
-												<span class="input-group-addon"><span
-													class="fas fa-map-marker-check"></span></span> <input type="text"
-													th:field="*{department}" class="form-control" />
-											</div>
-											<label id="department-error" class="form-text text-danger"
-												for="department"
-												th:if="${#fields.hasErrors('department')}"
-												th:errors="*{department}">This field is required.</label>
-												<label id="department-error" class="form-text text-danger" style="display:none"></label>
-											<!-- <span class="help-block">Field policy to be determined
-												later!!!</span> -->
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-md-3 col-xs-12 control-label">Địa chỉ</label>
-										<div class="col-md-6 col-xs-12">
-											<div class="input-group">
-												<span class="input-group-addon"><span
-													class="fas fa-map-marker-check"></span></span> <input type="text"
-													th:field="*{address}" class="form-control" />
-											</div>
-											<label id="address-error" class="form-text text-danger"
-												for="address"
-												th:if="${#fields.hasErrors('address')}"
-												th:errors="*{address}">This field is required.</label>
-												<label id="address-error" class="form-text text-danger" style="display:none"></label>
-											<!-- <span class="help-block">Field policy to be determined
-												later!!!</span> -->
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-md-3 col-xs-12 control-label">Trường học</label>
-										<div class="col-md-6 col-xs-12">
-											<div class="input-group">
-												<span class="input-group-addon"><span
-													class="fas fa-map-marker-check"></span></span> <input type="text"
-													th:field="*{education}" class="form-control" />
-											</div>
-											<label id="education-error" class="form-text text-danger"
-												for="education"
-												th:if="${#fields.hasErrors('education')}"
-												th:errors="*{education}">This field is required.</label>
-												<label id="education-error" class="form-text text-danger" style="display:none"></label>
-											<!-- <span class="help-block">Field policy to be determined
-												later!!!</span> -->
-										</div>
-									</div>
-									
-									<div class="form-group">
-										<label class="col-md-3 control-label">Ngôn ngữ lập trình chính</label>
-										<div class="col-md-6">
-
-											<select class="form-control select" th:field="*{programmingLanguage}">
-												<option value="">Chọn ngôn ngữ lập trình chính</option>
-												<option th:each="p : ${programmingLanguages}" th:value="${p.id}"
-													th:text="${p.name}"></option>
-											</select> <label id="programmingLanguage-error" class="form-text text-danger"
-												for="programmingLanguage"
-												th:if="${#fields.hasErrors('programmingLanguage')}"
-												th:errors="*{programmingLanguage}">This field is required.</label>
-											<!-- <span
-												class="help-block">Field policy to be determined
-												later!!!</span> -->
-										</div>
-									</div>
-									
-									  <div class="form-group">
-                                        <label class="col-md-3 col-xs-12 control-label">Chi tiết kinh nghiệm</label>
-                                        <div class="col-md-6 col-xs-12 ignore">
-                                            <textarea class="form-control summernote" th:field="*{detailsOfExp}" rows="5"></textarea>
-                                            <!-- <span class="help-block" th:if="${#fields.hasErrors('exprienceDetails')}" th:errors="*{exprienceDetails}">This is sample of textarea field</span> -->
-                                        		<label id="detailsOfExp-error" class="form-text text-danger"
-												for="detailsOfExp"
-												th:if="${#fields.hasErrors('detailsOfExp')}"
-												th:errors="*{detailsOfExp}">This field is required.</label>
-                                        	<label id="detailsOfExp-error" class="form-text text-danger" style="display:none"></label> 
-                                        </div>
-                                    </div>
-								</div>
-								<div class="panel-footer">
-										<button class="btn btn-default">
-											<i class="fal fa-redo"></i> Reset field
-										</button>
-										<button class="btn btn-default" type="button" onclick="location.href='/staff/trainee/list'">
-										<i class="fal fa-arrow-left"></i> Quay lại
-									</button>
-										<button class="btn btn-primary pull-right">
-											<i class="fal fa-level-up"></i> Gửi
-										</button>
-									</div>
-
-							</div>
-						</form>
-						<form th:action="@{/staff/trainee/changePassword}" id="jvalidate2"
-							class="form-horizontal" th:object="${traineeForm}" method="post">
-							<div class="panel panel-default">
-								<div class="panel-heading">
-									<h3 class="panel-title">
-										<strong>Đổi mật khẩu</strong>
-									</h3>
-									<ul class="panel-controls">
-										<li><a href="#" class="panel-collapse"><span
-												class="fa fa-angle-down"></span></a></li>
-										<li><a href="#" class="panel-refresh"><span
-												class="fas fa-sync"></span></a></li>
-										<li><a href="#" class="panel-remove"><span
-												class="fa fa-times"></span></a></li>
-									</ul>
-								</div>
-
-								<div class="panel-body">
-
-									<input type="hidden" th:field="*{Id}" class="form-control" />
-
-									<div class="form-group">
-										<label class="col-md-3 col-xs-12 control-label">Mật khẩu</label>
-										<div class="col-md-6 col-xs-12">
-											<div class="input-group">
-												<span class="input-group-addon"><span
-													class="fas fa-lock"></span></span> <input id="password"
-													type="password" th:field="*{password}" class="form-control" />
-											</div>
-											<label id="password-error" class="form-text text-danger"
-												for="password" th:if="${#fields.hasErrors('password')}"
-												th:errors="*{password}">This field is required.</label>
-													<label id="password-error" class="form-text text-danger" style="display:none"></label>
-											<!--  <span
-												class="help-block">Field policy to be determined
-												later!!!</span> -->
-										</div>
-									</div>
-									<div class="form-group">
-										<label class="col-md-3 col-xs-12 control-label">Xác nhận mật khẩu</label>
-										<div class="col-md-6 col-xs-12">
-											<div class="input-group">
-												<span class="input-group-addon"><span
-													class="fas fa-lock"></span></span> <input type="password"
-													th:field="*{confirmPassword}" class="form-control" />
-											</div>
-											<label id="confirmPassword-error"
-												class="form-text text-danger" for="confirmPassword"
-												th:if="${#fields.hasErrors('confirmPassword')}"
-												th:errors="*{confirmPassword}">This field is
-												required.</label>
-													<label id="confirmPassword-error" class="form-text text-danger" style="display:none"></label>
-											<!--  <span class="help-block">Field policy to be
-												determined later!!!</span> -->
+											<label id="startDate-error" class="form-text text-danger"
+												for="startDate" th:if="${#fields.hasErrors('startDate')}"
+												th:errors="*{startDate}">This field is required.</label> <label
+												id="startDate-error" class="form-text text-danger"
+												style="display: none"></label>
 										</div>
 									</div>
 
+
+									<div class="form-group">
+										<label class="col-md-3 col-xs-12 control-label">Mô tả
+											khóa học</label>
+										<div class="col-md-6 col-xs-12 ignore">
+											<textarea class="form-control summernote"
+												th:field="*{description}" rows="5"></textarea>
+											<label id="description-error" class="form-text text-danger"
+												for="description"
+												th:if="${#fields.hasErrors('description')}"
+												th:errors="*{description}">This field is required.</label> <label
+												id="description-error" class="form-text text-danger"
+												style="display: none"></label>
+										</div>
+									</div>
 
 
 								</div>
@@ -299,15 +109,18 @@
 									<button class="btn btn-default">
 										<i class="fal fa-redo"></i> Reset field
 									</button>
-									<button class="btn btn-default" type="button" onclick="location.href='/staff/trainee/list'">
+									<button class="btn btn-default" type="button"
+										onclick="location.href='/staff/course/list'">
 										<i class="fal fa-arrow-left"></i> Quay lại
 									</button>
 									<button class="btn btn-primary pull-right">
 										<i class="fal fa-level-up"></i> Gửi
 									</button>
 								</div>
+
 							</div>
 						</form>
+
 					</div>
 					<!--col 12-->
 				</div>
@@ -333,10 +146,12 @@
 		<script type='text/javascript'
 			src='js/plugins/jquery-validation/jquery.validate.js'
 			th:src="@{/js/plugins/jquery-validation/jquery.validate.js}"></script>
-			<script type="text/javascript"
+		<script type="text/javascript"
 			src="js/plugins/bootstrap/bootstrap-datepicker.js"
 			th:src="@{/js/plugins/bootstrap/bootstrap-datepicker.js}"></script>
-			 <script type="text/javascript" src="js/plugins/summernote/summernote.js" th:src="@{/js/plugins/summernote/summernote.js}"></script>
+		<script type="text/javascript"
+			src="js/plugins/summernote/summernote.js"
+			th:src="@{/js/plugins/summernote/summernote.js}"></script>
 		<script type="text/javascript">
 			$.validator.addMethod("australianDate", function(value, element) {
 				// put your own logic here, this is just a (crappy) example
@@ -363,122 +178,131 @@
 						}
 					});
 
-			$("#jvalidate1").validate({
-				ignore : ".ignore *",
-				submitHandler: function(form) {
-					$("#detailsOfExp").val($("#detailsOfExp").code());
-					$.ajax({
-						type: $(form).attr('method'),
-						url: $(form).attr('action'),
-						data: $(form).serialize(),	
+			$("#jvalidate1").validate(
+					{
+						ignore : ".ignore *",
+						submitHandler : function(form) {
+							$("#description").val($("#description").code());
+							$.ajax({
+								type : $(form).attr('method'),
+								url : $(form).attr('action'),
+								data : $(form).serialize(),
 
-						success : function(res) {
-					         
-				            if(res.validated){
-				            	toastr["success"]("Cập nhật thành công!", "Thông báo")
-				            }else{
-				              //Set error messages
-				            	 toastr["error"]("Có lỗi xảy ra ???", "Thông báo")
-				              $.each(res.errorMessages,function(key,value){
-				            	 
-				            	  $( "#"+key+"-error" ).text("");
-				  	           /*  console.log('<span class="error">'+key +' - '+value+'</span>'); */
-				  	          $( "#"+key+"-error" ).text(value).show();         // div.foo elements that contain <p> tags
+								success : function(res) {
 
-				  	           
-				              }); 
-				            }
-			
-				  		}
-						
+									if (res.validated) {
+										toastr["success"](
+												"Cập nhật thành công!",
+												"Thông báo")
+									} else {
+										//Set error messages
+										toastr["error"]("Có lỗi xảy ra ???",
+												"Thông báo")
+										$.each(res.errorMessages, function(key,
+												value) {
+
+											$("#" + key + "-error").text("");
+											/*  console.log('<span class="error">'+key +' - '+value+'</span>'); */
+											$("#" + key + "-error").text(value)
+													.show(); // div.foo elements that contain <p> tags
+
+										});
+									}
+
+								}
+
+							});
+							return false;
+						},
+						rules : {
+							firstName : {
+								required : true,
+								minlength : 1,
+								maxlength : 20
+							},
+							lastName : {
+								required : true,
+								minlength : 1,
+								maxlength : 20
+							},
+							birthDate : {
+								required : true,
+								australianDate : true
+							},
+							scoreOfToeic : {
+								required : true,
+								digits : true,
+								min : 10,
+								max : 990
+							},
+							department : {
+								required : true
+							},
+							address : {
+								required : true
+							},
+							education : {
+								required : true
+							},
+							programmingLanguage : {
+								required : true
+							}
+						},
+
+						invalidHandler : function(form, validator) {
+							toastr["error"]("Có lỗi xảy ra ???", "Thông báo")
+						}
 					});
-					return false;
-				},
-				rules : {	
-					firstName : {
-						required : true,
-						minlength : 1,
-						maxlength : 20
-					},
-					lastName : {
-						required : true,
-						minlength : 1,
-						maxlength : 20
-					},
-					birthDate : {
-						required : true,	
-						australianDate : true
-					},
-					scoreOfToeic: {
-						required: true,
-						digits: true,
-						min:10,
-						max:990
-					},
-					department: {
-						required: true
-					},
-					address: {
-						required: true	
-					},
-					education: {
-						required:true
-					},
-					programmingLanguage: {
-						required: true
-					}
-				},
-				
-				  invalidHandler: function(form, validator) {
-					  toastr["error"]("Có lỗi xảy ra ???", "Thông báo")
-				}
-			});
-			$("#jvalidate2").validate({
-				ignore : [],
-				submitHandler: function(form) {
-					$.ajax({
-						type: $(form).attr('method'),
-						url: $(form).attr('action'),
-						data: $(form).serialize(),	
+			$("#jvalidate2").validate(
+					{
+						ignore : [],
+						submitHandler : function(form) {
+							$.ajax({
+								type : $(form).attr('method'),
+								url : $(form).attr('action'),
+								data : $(form).serialize(),
 
-						success : function(res) {
-					         
-				            if(res.validated){
-				            	toastr["success"]("Tạo thành công!", "Thông báo")
+								success : function(res) {
 
-				            }else{
-				              //Set error messages
-				            	 toastr["error"]("Có lỗi xảy ra ???", "Thông báo")
-				              $.each(res.errorMessages,function(key,value){
-				            	 
-				            $( "#"+key+"-error" ).text("");
-				  	           /*  console.log('<span class="error">'+key +' - '+value+'</span>'); */
-				  	           $( "#"+key+"-error" ).text(value).show();         // div.foo elements that contain <p> tags
+									if (res.validated) {
+										toastr["success"]("Tạo thành công!",
+												"Thông báo")
 
-				  	           
-				              }); 
-				            }
-			
-				  		}
-						
+									} else {
+										//Set error messages
+										toastr["error"]("Có lỗi xảy ra ???",
+												"Thông báo")
+										$.each(res.errorMessages, function(key,
+												value) {
+
+											$("#" + key + "-error").text("");
+											/*  console.log('<span class="error">'+key +' - '+value+'</span>'); */
+											$("#" + key + "-error").text(value)
+													.show(); // div.foo elements that contain <p> tags
+
+										});
+									}
+
+								}
+
+							});
+							return false;
+						},
+						rules : {
+
+							password : {
+								required : true,
+								minlength : 5,
+								maxlength : 10
+							},
+							confirmPassword : {
+								required : true,
+								minlength : 5,
+								maxlength : 10,
+								equalTo : "#password"
+							}
+						}
 					});
-					return false;
-				},
-				rules : {
-				
-					password : {
-						required : true,
-						minlength : 5,
-						maxlength : 10
-					},
-					confirmPassword : {
-						required : true,
-						minlength : 5,
-						maxlength : 10,
-						equalTo : "#password"
-					}
-				}
-			});
 			$.extend($.validator.messages, {
 				required : "Hãy nhập.",
 				remote : "Hãy sửa cho đúng.",
@@ -506,7 +330,7 @@
 				format : 'dd/mm/yyyy'
 			});
 		</script>
-		
+
 	</th:block>
 </body>
 </html>

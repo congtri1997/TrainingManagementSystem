@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
@@ -44,7 +42,8 @@ public class TrainerService {
 	}
 
 	public void addTrainer(TrainerForm trainerForm) {
-		if(trainerForm == null) return;
+		if (trainerForm == null)
+			return;
 		roleService.addIfNotExist("ROLE_TRAINER");
 
 		Role role = roleService.findByName("ROLE_TRAINER");
@@ -109,25 +108,25 @@ public class TrainerService {
 
 	public void changePassword(TrainerForm trainerForm) {
 		Trainer trainer = trainerRepository.getOne(trainerForm.getId());
-		if(trainer != null) {
+		if (trainer != null) {
 			trainer.setEncryptedPassword(encoder.encode(trainerForm.getPassword()));
 			trainerRepository.save(trainer);
 		}
-		
+
 	}
 
 	public void delete(long id) {
-		if(trainerRepository.existsById(id)) {
+		if (trainerRepository.existsById(id)) {
 			trainerRepository.delete(trainerRepository.getOne(id));
 		}
 	}
-	
+
 	public boolean existsById(long id) {
 		return trainerRepository.existsById(id);
 	}
 
 	public DataTablesOutput<TrainerForm> findAll(DataTablesInput input) {
-		return trainerRepository.findAll(input,(Trainer t)  -> TrainerForm.toDTO(t));
+		return trainerRepository.findAll(input,null,null,(Trainer t)  -> TrainerForm.toDTO(t));
 	}
 
 }

@@ -19,6 +19,7 @@ public class TraineeForm {
 	private String detailsOfExp;
 	private String department;
 	private String address;
+	private int number;
 
 	private ProgrammingLanguage programmingLanguage;
 	private String passwordText;
@@ -74,6 +75,14 @@ public class TraineeForm {
 
 	public String getLastName() {
 		return lastName;
+	}
+
+	public int getNumber() {
+		return number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
 	}
 
 	public void setLastName(String lastName) {
@@ -165,15 +174,16 @@ public class TraineeForm {
 		return "TraineeForm [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", userName="
 				+ userName + ", password=" + password + ", confirmPassword=" + confirmPassword + ", birthDate="
 				+ birthDate + ", education=" + education + ", scoreOfToeic=" + scoreOfToeic + ", detailsOfExp="
-				+ detailsOfExp + ", department=" + department + ", address=" + address + ", passwordText="
-				+ passwordText + "]";
+				+ detailsOfExp + ", department=" + department + ", address=" + address + ", number=" + number
+				+ ", programmingLanguage=" + programmingLanguage + ", passwordText=" + passwordText + "]";
 	}
 
 	public static TraineeForm toDTO(Trainee trainee) {
 		TraineeForm traineeForm = new TraineeForm();
 		traineeForm.setId(trainee.getId());
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-		traineeForm.setBirthDate(formatter.format(trainee.getBirthDate()));
+		if (trainee.getBirthDate() != null)
+			traineeForm.setBirthDate(formatter.format(trainee.getBirthDate()));
 		traineeForm.setFirstName(trainee.getFirstName());
 		traineeForm.setLastName(trainee.getLastName());
 		traineeForm.setPasswordText(trainee.getEncryptedPassword());
@@ -184,8 +194,9 @@ public class TraineeForm {
 		traineeForm.setDepartment(trainee.getDepartment());
 		traineeForm.setEducation(trainee.getEducation());
 		traineeForm.setPasswordText(trainee.getEncryptedPassword());
-		if(trainee.getProgrammingLanguage() != null) {
+		if (trainee.getProgrammingLanguage() != null) {
 			traineeForm.setProgrammingLanguage(trainee.getProgrammingLanguage());
+
 		}
 		return traineeForm;
 	}
