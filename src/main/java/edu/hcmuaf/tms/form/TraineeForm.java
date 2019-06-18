@@ -1,7 +1,11 @@
 package edu.hcmuaf.tms.form;
 
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
+import edu.hcmuaf.tms.entity.Course;
+import edu.hcmuaf.tms.entity.Enrollment;
 import edu.hcmuaf.tms.entity.ProgrammingLanguage;
 import edu.hcmuaf.tms.entity.Trainee;
 
@@ -23,6 +27,8 @@ public class TraineeForm {
 
 	private ProgrammingLanguage programmingLanguage;
 	private String passwordText;
+
+	private List<Course> courses = new ArrayList<Course>();
 
 //	public static TraineeForm convertToTraineeForm(Trainee trainee) {
 //		TraineeForm traineeForm = new TraineeForm();
@@ -47,6 +53,14 @@ public class TraineeForm {
 //	}
 
 	public TraineeForm() {
+	}
+
+	public List<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(List<Course> courses) {
+		this.courses = courses;
 	}
 
 	public String getPasswordText() {
@@ -197,6 +211,14 @@ public class TraineeForm {
 		if (trainee.getProgrammingLanguage() != null) {
 			traineeForm.setProgrammingLanguage(trainee.getProgrammingLanguage());
 
+		}
+		return traineeForm;
+	}
+
+	public static TraineeForm toDTOWithTopics(Trainee trainee) {
+		TraineeForm traineeForm = toDTO(trainee);
+		for (Enrollment enrollment : trainee.getEnrollments()) {
+			traineeForm.getCourses().add(enrollment.getCourse());
 		}
 		return traineeForm;
 	}

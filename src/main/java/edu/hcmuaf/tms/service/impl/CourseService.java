@@ -27,9 +27,6 @@ public class CourseService {
 
 	public void addCourse(CourseForm courseForm) {
 		Course course = CourseForm.toEntity(courseForm);
-		/*
-		 * do sth here
-		 */
 
 		courseRepository.save(course);
 	}

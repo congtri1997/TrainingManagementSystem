@@ -12,4 +12,6 @@ public interface AbstractUserRepository extends JpaRepository<AbstractUser, Long
 //
 //	AbstractUser findByUserName(String userName);
 
+	@Query("SELECT a FROM AbstractUser a WHERE a.userName = :username")
+	AbstractUser getAbstractUser(@Param("username") String username);
 }

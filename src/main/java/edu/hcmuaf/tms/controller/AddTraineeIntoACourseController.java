@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import edu.hcmuaf.tms.entity.Enrollment;
 import edu.hcmuaf.tms.entity.Trainee;
 import edu.hcmuaf.tms.form.AddTraineeIntoACourseDTO;
 import edu.hcmuaf.tms.form.JsonRespone;

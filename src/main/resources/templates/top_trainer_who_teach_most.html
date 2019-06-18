@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- <head
+	th:replace="fragments/general.html :: common_header(~{::title},~{::link})"> -->
+<head
+	th:replace="fragments/general.html :: common_header(~{::title},~{::link})">
+<title>TMS - List Course</title>
+
+<link th:href="@{/css/nv.d3.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+	<!-- START PAGE CONTAINER -->
+	<div class=" page-container">
+		<th:block th:replace="fragments/general.html :: sidebar"></th:block>
+		<!-- PAGE CONTENT -->
+		<div class="page-content">
+			<th:block
+				th:replace="fragments/general.html :: navigation-horizontal"></th:block>
+			<!-- PAGE CONTENT WRAPPER -->
+			<div class="page-content-wrap">
+				<div class="row">
+					<div class="col-md-6">
+
+						<!-- START STACKED AREA CHART -->
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Bảng dữ liệu</h3>
+								<ul class="panel-controls panel-controls-title">
+									<li>
+										<div id="reportrange" class="dtrange">
+											<span></span><b class="caret"></b>
+										</div>
+									</li>
+									<li><a href="#" class="panel-fullscreen rounded"><span
+											class="fa fa-expand"></span></a></li>
+								</ul>
+							</div>
+							<div class="panel-body">
+
+								<div class="table-responsive"
+									style="max-height: 380px; overflow-y: auto;">
+									<table id="dataChart" class="table">
+										<thead>
+											<tr>
+												<th>Tên giảng viên</th>
+												<th>Số lần dạy</th>
+											</tr>
+										</thead>
+										<tbody>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+						<!-- END STACKED AREA CHART -->
+
+					</div>
+
+					<div class="col-md-6">
+
+						<!-- START STACKED AREA CHART -->
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Biểu đồ tròn</h3>
+							</div>
+							<div class="panel-body">
+								<svg id="test1" class="mypiechart" style="height: 380px"></svg>
+
+
+							</div>
+						</div>
+						<!-- END STACKED AREA CHART -->
+
+					</div>
+					<div class="col-md-12">
+
+						<!-- START DISCRETE CHART -->
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">Biểu đồ cột</h3>
+							</div>
+							<div class="panel-body">
+								<div id="chart1" style="height: 300px;">
+									<svg></svg>
+								</div>
+
+							</div>
+						</div>
+						<!-- END DISCRETE CHART -->
+
+					</div>
+
+
+
+				</div>
+
+
+				<!-- PAGE CONTENT WRAPPER -->
+			</div>
+			<!-- END PAGE CONTENT -->
+		</div>
+		<!-- END PAGE CONTAINER -->
+	</div>
+	<th:block th:replace="fragments/general.html :: logout"></th:block>
+	<th:block
+		th:replace="fragments/general.html :: common_plugins(~{::script})">
+		<!-- START THIS PAGE PLUGINS-->
+		<script type='text/javascript' src='js/plugins/icheck/icheck.min.js'
+			th:src="@{/js/plugins/icheck/icheck.min.js}"></script>
+		<script type="text/javascript"
+			src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"
+			th:src="@{/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js}"></script>
+		<!-- END THIS PAGE PLUGINS -->
+
+		<script type='text/javascript'
+			src='js/plugins/bootstrap/bootstrap-select.js'
+			th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"
+			charset="utf-8"></script>
+		<script th:src="@{/js/nv.d3.js}"></script>
+		 <script type='text/javascript' th:src="@{/js/plugins/bootstrap/bootstrap-datepicker.js}"></script>                
+        <script type="text/javascript" th:src="@{/js/plugins/owl/owl.carousel.min.js}"></script>                 
+		
+		        <script type="text/javascript" th:src="@{/js/plugins/moment.min.js}"></script>
+        <script type="text/javascript" th:src="@{/js/plugins/daterangepicker/daterangepicker.js}"></script>
+		<script>
+			historicalBarChart = [ {
+				key : "Top Giảng viên dạy nhiều topic nhất",
+				values : [
+
+				]
+			} ];
+			
+			 var pieData = [
+	/* 		        {key: "One", y: 5},
+			        {key: "Two", y: 2},
+			        {key: "Three", y: 9},
+			        {key: "Four", y: 7},
+			        {key: "Five", y: 4},
+			        {key: "Six", y: 3},
+			        {key: "Seven", y: 0.5} */
+			    ];
+
+			$(document)
+					.ready(
+							function() {
+								render(null,null);
+							});
+			
+			
+		
+			 if($("#reportrange").length > 0){   
+			        $("#reportrange").daterangepicker({                    
+			            ranges: {
+			               'Today': [moment(), moment()],
+			               'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+			               'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+			               'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+			               'This Month': [moment().startOf('month'), moment().endOf('month')],
+			               'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+			            },
+			            opens: 'left',
+			            buttonClasses: ['btn btn-default'],
+			            applyClass: 'btn-small btn-primary',
+			            cancelClass: 'btn-small',
+			            format: 'DD/MM/YYYY',
+			            separator: ' to ',
+			            startDate: moment().subtract('days', 29),
+			            endDate: moment()            
+			          },function(start, end) {
+			              $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+			        });
+			        
+			        $("#reportrange span").html(moment().subtract('days', 29).format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+			    }		
+			 $(".applyBtn,.ranges>ul").click(function(){ 
+				 
+				 render($('input[name=daterangepicker_start]').val(),$('input[name=daterangepicker_end]').val());
+				 
+			 });
+
+			 
+			 
+			 var render = function(startDate,endDate) {
+				 pieData =[];
+					historicalBarChart[0].values = [];		
+					$(
+					'#dataChart > tbody').empty();
+					$
+					.ajax({
+
+						url : '/staff/rest/top_trainer_who_teach_most',
+						type : 'GET',
+						data : {
+							n : 10, start: startDate, end: endDate
+						},
+						success : function(data) {
+							$.each(data,function(index) {
+												var myObject = {};
+												var pieObject = {};
+												myObject.label = data[index].trainer.id
+														+ ' - '
+														+ data[index].trainer.lastName
+														+ ' '
+														+ data[index].trainer.firstName
+												myObject.value = data[index].num
+												pieObject.key = data[index].trainer.firstName
+												pieObject.y = myObject.value;
+												
+												
+												pieData.push(pieObject);
+												
+												historicalBarChart[0].values
+														.push(myObject);
+											
+												$(
+														'#dataChart > tbody')
+														.append(
+																'<tr><td>'
+																		+ myObject.label
+																		+ '</td><td>'
+																		+ myObject.value
+																		+ '</td></tr>');
+
+											});
+
+							nv
+									.addGraph(function() {
+										var chart = nv.models
+												.discreteBarChart()
+												.x(
+														function(
+																d) {
+															return d.label
+														})
+												.y(
+														function(
+																d) {
+															return d.value
+														})
+												.staggerLabels(
+														true)
+												//.staggerLabels(historicalBarChart[0].values.length > 8)
+												.showValues(
+														true)
+												.duration(
+														250);
+
+										d3
+												.select(
+														'#chart1 svg')
+												.datum(
+														historicalBarChart)
+												.call(chart);
+
+										nv.utils
+												.windowResize(chart.update);
+										return chart;
+									});
+							
+							
+							
+							
+							
+
+						 	var height = 400;
+						    var width = 400;
+
+						    
+
+						    nv.addGraph(function() {
+						        var chart = nv.models.pieChart()
+						            .x(function(d) { return d.key })
+						            .y(function(d) { return d.y })
+						            .width(width)
+						            .height(height)
+						            .showTooltipPercent(true);
+
+						        d3.select("#test1")
+						            .datum(pieData)
+						            .transition().duration(1200)
+						            .attr('width', width)
+						            .attr('height', height)
+						            .call(chart);
+
+						
+						        return chart;
+						    });
+
+
+						},
+						'error' : function(request, error) {
+							alert("Request: "
+									+ JSON
+											.stringify(request));
+						}
+					}); 
+			 };
+		</script>
+
+	</th:block>
+</body>
+</html>
+

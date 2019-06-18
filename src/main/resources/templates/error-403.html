@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- <head
+	th:replace="fragments/general.html :: common_header(~{::title},~{::link})"> -->
+<head
+	th:replace="fragments/general.html :: common_header(~{::title},~{})">
+<title>TMS - Error 404</title>
+</head>
+<body>
+	<div class="error-container">
+            <div class="error-code">403</div>
+            <div class="error-text">Forbidden</div>
+            <div class="error-subtext">You don't have permission to access this page</div>
+            <div class="error-actions">                                
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-info btn-block btn-lg" onClick="document.location.href = '/';">Back to dashboard</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-primary btn-block btn-lg" onClick="history.back();">Previous page</button>
+                    </div>
+                </div>                                
+            </div>
+            <div class="error-subtext">Or you can use search to find anything you need.</div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <input type="text" placeholder="Search..." class="form-control"/>
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary"><span class="fa fa-search"></span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>                 
+</body>
+</html>
+

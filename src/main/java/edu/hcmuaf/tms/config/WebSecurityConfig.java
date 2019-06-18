@@ -46,19 +46,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 
 		// Các trang không yêu cầu login
-		http.authorizeRequests().antMatchers("/", "/login", "/logout").permitAll();
+		http.authorizeRequests().antMatchers( "/login", "/logout").permitAll();
 
 		// Trang /userInfo yêu cầu phải login với vai trò ROLE_USER hoặc ROLE_ADMIN.
 		// Nếu chưa login, nó sẽ redirect tới trang /login.
-//		http.authorizeRequests().antMatchers("/userInfo").access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')");
+		http.authorizeRequests().antMatchers("/","/index").access("hasAnyRole('ROLE_TRAINEE', 'ROLE_ADMIN','ROLE_STAFF','ROLE_TRAINER')");
+		
+		
+		
+		// Trang chỉ dành cho ADMIN
+		http.authorizeRequests().antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')");
 
 		// Trang chỉ dành cho ADMIN
-		http.authorizeRequests().antMatchers("/admin").access("hasRole('ROLE_ADMIN')");
-
-		// Trang chỉ dành cho ADMIN
-		http.authorizeRequests().antMatchers("/trainer").access("hasRole('ROLE_TRAINER')");
-		http.authorizeRequests().antMatchers("/trainee").access("hasRole('ROLE_TRAINEE')");
-		http.authorizeRequests().antMatchers("/staff").access("hasRole('ROLE_STAFF')");
+		http.authorizeRequests().antMatchers("/trainer/**").access("hasRole('ROLE_TRAINER')");
+		http.authorizeRequests().antMatchers("/trainee/**").access("hasRole('ROLE_TRAINEE')");
+		http.authorizeRequests().antMatchers("/staff/**").access("hasRole('ROLE_STAFF')");
 
 		// Khi người dùng đã login, với vai trò XX.
 		// Nhưng truy cập vào trang yêu cầu vai trò YY,
@@ -70,12 +72,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// Submit URL của trang login
 				.loginProcessingUrl("/j_spring_security_check") // Submit URL
 				.loginPage("/login")//
-				.defaultSuccessUrl("/userAccountInfo")//
+				.defaultSuccessUrl("/")//
 				.failureUrl("/login?error=true")//
 				.usernameParameter("username")//
 				.passwordParameter("password")
 				// Cấu hình cho Logout Page.
-				.and().logout().logoutUrl("/logout").logoutSuccessUrl("/logoutSuccessful");
+				.and().logout().logoutUrl("/logout").logoutSuccessUrl("/login");
 
 		// Cấu hình Remember Me.
 		http.authorizeRequests().and() //

@@ -2,18 +2,26 @@ package edu.hcmuaf.tms.controller;
 
 import java.security.Principal;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import edu.hcmuaf.tms.service.impl.TopicService;
+
 @Controller
 public class HelloController {
+	
+	@Autowired
+	TopicService topicService; 
 
 	@RequestMapping(value = { "/", "index.html" }, method = { RequestMethod.GET })
 	public String index() {
 		return "index";
 	}
+	
+
 
 
 	@RequestMapping(value = { "/login" }, method = { RequestMethod.GET })
@@ -38,7 +46,7 @@ public class HelloController {
 
 //		}
 
-		return "403Page";
+		return "error-403";
 	}
 
 }

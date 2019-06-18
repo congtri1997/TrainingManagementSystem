@@ -33,6 +33,6 @@ public class Feedback {
 	private Topic topic;
 
 	private int rating;
-	private String note;
+//	private String note;
 
 }

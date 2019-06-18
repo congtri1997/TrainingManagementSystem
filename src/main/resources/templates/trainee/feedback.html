@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- <head
+	th:replace="fragments/general.html :: common_header(~{::title},~{::link})"> -->
+<head
+	th:replace="fragments/general.html :: common_header(~{::title},~{::link})">
+<title>TMS - Feedback On Topic</title>
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/scroller/1.4.3/css/scroller.dataTables.min.css" />
+
+<link th:href="@{/star_rating/css/star-rating.css}" media="all"
+	rel="stylesheet" type="text/css" />
+</head>
+<body>
+	<!-- START PAGE CONTAINER -->
+	<div class=" page-container">
+		<th:block th:replace="fragments/general.html :: sidebar"></th:block>
+		<!-- PAGE CONTENT -->
+		<div class="page-content">
+			<th:block
+				th:replace="fragments/general.html :: navigation-horizontal"></th:block>
+			<!-- PAGE CONTENT WRAPPER -->
+			<div class="page-content-wrap">
+
+				<div class="row">
+					<div class="col-md-12">
+						<!-- <div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<strong>Filter</strong>
+								</h3>
+								<ul class="panel-controls">
+									<li><a href="#" class="panel-collapse"><span
+											class="fa fa-angle-down"></span></a></li>
+									<li><a href="#" class="panel-remove"><span
+											class="fa fa-times"></span></a></li>
+								</ul>
+
+							</div>
+							<div class="panel-body">
+								<div class="col-md-2">
+									<label>Ngôn ngữ lập trình chính</label> <select
+										class="form-control " id="programmingLanguageSelector"
+										multiple="multiple">
+										<option th:each="p : ${programmingLanguages}"
+											th:value="${p.id}" th:text="${p.name}"></option>
+
+										<option value="">NULL</option>
+									</select>
+								</div>
+								<div class="form-group col-md-2">
+									<label>Điểm toeic</label> <input type="number" min="10"
+										max="990" class="form-control" id="minScoreOfToeic"
+										placeholder="From"> <input type="number" min="10"
+										max="990" class="form-control" id="maxScoreOfToeic"
+										placeholder="To">
+								</div>
+							</div>
+
+						</div> -->
+						<!-- START DEFAULT DATATABLE -->
+						<div class="panel panel-default">
+							<div class="panel-heading">
+								<h3 class="panel-title">
+									<strong>Danh sách thông tin các topic</strong>
+								</h3>
+								<ul class="panel-controls">
+									<li><a href="#" class="panel-collapse"><span
+											class="fa fa-angle-down"></span></a></li>
+									<li><a href="#" class="panel-refresh"><span
+											class="fas fa-sync"></span></a></li>
+									<li><a href="#" class="panel-remove"><span
+											class="fa fa-times"></span></a></li>
+								</ul>
+
+							</div>
+							<div class="panel-body">
+								<div class="table-responsive">
+
+									<div class="row">
+										<div class="col-md-6"></div>
+									</div>
+									<table id="trainees" class="table">
+										<thead>
+											<tr>
+												<th>Tên khóa học</th>
+												<th>Thao tác</th>
+											</tr>
+										</thead>
+									</table>
+								</div>
+
+							</div>
+							<div class="panel-footer">
+								<button class="btn btn-default">
+									<i class="fal fa-arrow-left"></i> Quay lại
+								</button>
+							</div>
+						</div>
+						<!-- END DEFAULT DATATABLE -->
+
+
+					</div>
+				</div>
+
+			</div>
+			<!-- PAGE CONTENT WRAPPER -->
+		</div>
+		<!-- END PAGE CONTENT -->
+	</div>
+
+
+	<div class="modal" id="modal_large" tabindex="-1" role="dialog"
+		aria-labelledby="largeModalHead" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="largeModalHead">Phân công giảng
+						viên dạy topic</h4>
+				</div>
+				<div class="modal-body">
+					<select id="selectbox1" class="form-control">
+						<option value="">Chọn topic</option>
+						<!-- <option th:each="t : ${trainers}" th:value="${t.id}"
+								th:text="${t.userName+' - '+ t.firstName +' ' + t.lastName}"></option> -->
+					</select>
+
+					<div class="row" style="margin-top: 10px">
+						<div class="col-md-12">
+						<th:block th:each="f : ${feedbackTypes}">
+							<div class="form-group">
+								<label class="col-md-6 col-xs-12 control-label" th:text="${f.name}">Kỹ năng
+									sư phạm của Giảng viên có tốt không ?</label>
+								<div class="col-md-6 col-xs-12">
+									<div class="input-group">
+										<input name="input-1" th:name="${f.id}" class="rating rating-loading activeInput"
+											data-min="0" value="2" data-max="5" data-step="1"
+											data-size="xs">
+									</div>
+
+								</div>
+							</div>
+							</th:block>
+							<!-- <div class="form-group">
+								<label class="col-md-6 col-xs-12 control-label">Kỹ năng
+									sư phạm của Giảng viên có tốt không ?</label>
+								<div class="col-md-6 col-xs-12">
+									<div class="input-group">
+										<input name="input-1" class="rating rating-loading"
+											data-min="0" value="2" data-max="5" data-step="1"
+											data-size="xs">
+									</div>
+
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-6 col-xs-12 control-label">Giảng viên hỗ trợ và giải đáp
+                                            thắc mắc tốt cho học viên</label>
+								<div class="col-md-6 col-xs-12">
+									<div class="input-group">
+										<input name="input-1" class="rating rating-loading"
+											data-min="0" value="2" data-max="5" data-step="1"
+											data-size="xs">
+									</div>
+
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-6 col-xs-12 control-label">Mục tiêu khóa học đã đạt
+                                            được</label>
+								<div class="col-md-6 col-xs-12">
+									<div class="input-group">
+										<input name="input-1" class="rating rating-loading"
+											data-min="0" value="2" data-max="5" data-step="1"
+											data-size="xs">
+									</div>
+
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-md-6 col-xs-12 control-label">Khóa học có phù hợp với trình độ
+                                            của học viên</label>
+								<div class="col-md-6 col-xs-12">
+									<div class="input-group">
+										<input name="input-1" class="rating rating-loading"
+											data-min="0" value="2" data-max="5" data-step="1"
+											data-size="xs">
+									</div>
+
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-md-6 col-xs-12 control-label">Khóa học có bổ ích cho công việc
+                                            của bạn</label>
+								<div class="col-md-6 col-xs-12">
+									<div class="input-group">
+										<input name="input-1" class="rating rating-loading"
+											data-min="0" value="2" data-max="5" data-step="1"
+											data-size="xs">
+									</div>
+
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label class="col-md-6 col-xs-12 control-label">Cơ sở vật chất và công tác tổ
+                                            chức tốt</label>
+								<div class="col-md-6 col-xs-12">
+									<div class="input-group">
+										<input name="input-1" class="rating rating-loading"
+											data-min="0" value="2" data-max="5" data-step="1"
+											data-size="xs">
+									</div>
+
+								</div>
+							</div>
+							
+								<div class="form-group">
+								<label class="col-md-6 col-xs-12 control-label">Tài liệu giảng dạy có chuẩn bị
+                                            tốt?</label>
+								<div class="col-md-6 col-xs-12">
+									<div class="input-group">
+										<input name="input-1" class="rating rating-loading"
+											data-min="0" value="2" data-max="5" data-step="1"
+											data-size="xs">
+									</div>
+
+								</div>
+							</div>
+							
+							
+								<div class="form-group">
+								<label class="col-md-6 col-xs-12 control-label">Đảm bảo đủ nội dung chương trình
+                                            học</label>
+								<div class="col-md-6 col-xs-12">
+									<div class="input-group">
+										<input name="input-1" class="rating rating-loading"
+											data-min="0" value="2" data-max="5" data-step="1"
+											data-size="xs">
+									</div>
+
+								</div>
+							</div> -->
+
+							<!-- <div class="form-group">
+								<label class="col-md-6 col-xs-12 control-label">Ý kiến
+									đóng góp thêm</label>
+								<div class="col-md-6 col-xs-12">
+									<textarea name="note" class="form-control " rows="5"></textarea>
+									<span class="help-block">Default textarea field</span>
+								</div>
+							</div> -->
+						</div>
+
+					</div>
+
+
+				</div>
+
+				<input type="hidden" name="id" />
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+					<button id="submitButton" type="button" class="btn btn-default">Gửi</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- END PAGE CONTAINER -->
+	<th:block th:replace="fragments/general.html :: logout"></th:block>
+	<th:block
+		th:replace="fragments/general.html :: common_plugins(~{::script})">
+		<!-- START THIS PAGE PLUGINS-->
+		<script type='text/javascript' src='js/plugins/icheck/icheck.min.js'
+			th:src="@{/js/plugins/icheck/icheck.min.js}"></script>
+		<!-- <script type="text/javascript"
+			src="js/plugins/datatables/jquery.dataTables.min.js"
+			th:src="@{/js/plugins/datatables/jquery.dataTables.min.js}"></script>  -->
+		<script type="text/javascript"
+			src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"
+			th:src="@{/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js}"></script>
+		<!-- END THIS PAGE PLUGINS -->
+
+		<script type="text/javascript"
+			src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+		<script type="text/javascript"
+			src="https://cdn.datatables.net/scroller/1.4.3/js/dataTables.scroller.min.js"></script>
+		<script type='text/javascript'
+			src='js/plugins/bootstrap/bootstrap-select.js'
+			th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>
+		<script type="text/javascript" src="js/jquery.spring-friendly.js"
+			th:src="@{/js/jquery.spring-friendly.js}"></script>
+
+		<script type='text/javascript'
+			th:src="@{/star_rating/js/star-rating.js}"></script>
+		<script>
+			$('#submitButton').on('click',function() {
+				var dto = {};
+				var ratings =[];
+				$(".activeInput").each(function() {
+				    var map ={}
+			/* 		map[$(this).attr("name")] = $(this).val(); */
+					/* map[$(this).attr("name")] = $(this).val(); */
+					map.id = $(this).attr("name");
+					map.rating =  $(this).val();
+					ratings.push(map);
+				});
+				dto.ratings = ratings;
+				/* dto.note = $('textarea[name=note]').val(); */
+				dto.topicID = $( "#selectbox1" ).val();
+				console.log(dto)
+				console.log()
+				$.ajax({
+					type : 'POST',
+					url : '/trainee/feedback',
+					data : JSON.stringify(dto),
+					contentType: 'application/json',
+					success : function(data) {
+						alert(data);
+					}
+				});
+			});
+			
+		
+			var table = $('table#trainees')
+					.DataTable(
+							{
+								ajax : '/trainee/feedbacks/9',
+								serverSide : true,
+								scrollY : 500,
+								deferRender : true,
+								scroller : true,
+								columns : [
+										{
+											data : 'course.name',
+											render : function(data) {
+												return data ? data : '-';
+											}
+										},
+										{
+											data : 'id',
+											render : function(data) {
+												return '<td> <button type="button"  data-toggle="modal" data-target="#modal_large" data-topic-id="'+data+'" class="btn btn-default btn-rounded btn-condensed btn-sm"><i class="fal fa-comments fa-2x"></i></button></td>';
+											}
+										} ]
+							});
+
+			$('#trainees tbody').on('click', 'button', function() {
+				var data = table.row($(this).parents('tr')).data();
+				$('#selectbox1').find('option').not(':first').remove();
+				$('.activeInput').val('');
+				$('.activeInput').rating('refresh', {disabled: true, showClear: true, showCaption: true});
+				data.course.topics.forEach(function(entry) {
+					console.log(entry.name)
+					$('#selectbox1').append($('<option>', {
+						value : entry.id,
+						text : entry.name
+					}));
+				});
+
+			});
+			
+			
+			$('#selectbox1').on('change', function() {
+				$('.activeInput').val('');
+				$('.activeInput').rating('refresh', {disabled: false, showClear: true, showCaption: true});
+				if($('#selectbox1').val()) {
+				$.ajax({
+					type : 'GET',
+					url : '/trainee/getListFeedback',
+					data : {traineeID: 9, topicID: $('#selectbox1').val()},
+					contentType: 'application/json',
+					success : function(data) {
+						$.each(data, function(key, value) {
+						    //For example
+						    console.log( value)
+						    console.log('tri + '+value.feedbackType.id +' - '+ value.rating )
+						    $('input[name='+value.feedbackType.id+']').val(value.rating);
+						    
+						    $('input[name='+value.feedbackType.id+']').rating('refresh', {disabled: false, showClear: true, showCaption: true});
+
+						})
+					}
+				});
+				} else {
+					$('.activeInput').rating('refresh', {disabled: true, showClear: true, showCaption: true});
+				}
+				 
+			});
+		</script>
+	</th:block>
+
+</body>
+</html>

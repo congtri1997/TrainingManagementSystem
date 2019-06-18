@@ -80,7 +80,6 @@ public class TopicForm {
 
 		return topicForm;
 	}
-
 	@Override
 	public String toString() {
 		return "TopicForm [id=" + id + ", name=" + name + ", startDate=" + startDate + ", duration=" + duration

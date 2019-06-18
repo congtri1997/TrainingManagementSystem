@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html   xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org" > 
 <th:block th:fragment="common_plugins(scripts)">
 	<!-- START SCRIPTS -->
 	<!-- START PLUGINS -->
@@ -64,12 +64,15 @@
 
 	<th:block th:fragment="sidebar">
 		<!-- START PAGE SIDEBAR -->
+		
 		<div class="page-sidebar page-sidebar-fixed scroll">
 			<!-- START X-NAVIGATION -->
 			<ul class="x-navigation">
 				<li class="custom-logo"><a id="custom-logo-show"
 					class="custom-logo-name-system" href="index.html">Training
 						Managment System</a> <a id="custom-logo-hide">TMS</a></li>
+					
+				<th:block sec:authorize="hasRole('ROLE_ADMIN')">
 				<li class="xn-title">Các chức năng đối với admin</li>
 				<li class="xn-openable"><a href="#"><span
 						class="far fa-user-tie "></span> <span class="xn-text">
@@ -80,7 +83,10 @@
 						<li><a href="#"><span class="xn-text">Thêm thông
 									tin staff</span></a></li>
 					</ul></li>
-				<li class="xn-title">Các chức năng đối với staff/admin</li>
+				</th:block>	
+				<!-- <li class="xn-title">Các chức năng đối với staff/admin</li> -->
+				<th:block sec:authorize="hasRole('ROLE_STAFF')">
+				<li class="xn-title">Các chức năng đối với staff</li>
 				<li class="xn-openable"><a href="#"><span
 						class="far fa-user-tie "></span> <span class="xn-text">
 							Quản lý thông tin giảng viên</span></a>
@@ -90,7 +96,6 @@
 						<li><a href="#" th:href="@{/staff/trainer/add}"><span class="xn-text">Thêm thông
 									tin giảng viên</span></a></li>
 					</ul></li>
-				<li class="xn-title">Các chức năng đối với staff</li>
 				<li><a href="#"><span class="fas fa-books "></span> <span
 						class="xn-text"> Thêm topic vào một course</span></a></li>
 				<li><a href="#"><span class="fas fa-books "></span> <span
@@ -137,18 +142,23 @@
 						<li><a href="#"><span class="xn-text">Thêm thông
 									tin topic</span></a></li>
 					</ul></li>
+				</th:block>
+				<th:block  sec:authorize="hasRole('ROLE_TRAINER')">
 				<li class="xn-title">Các chức năng đối với giảng viên</li>
 				<li class="xn-openable"><a href="maps.html"><span
 						class="far fa-newspaper "></span> <span class="xn-text">Can
 							view courses topic assigned to</span></a></li>
 				<li><a href="#"><span class="fas fa-books "></span> <span
 						class="xn-text"> Update info</span></a></li>
+				</th:block>
+				<th:block  sec:authorize="hasRole('ROLE_TRAINEE')">
 				<li class="xn-title">Các chức năng đối với học viên</li>
 				<li class="xn-openable"><a href="maps.html"><span
 						class="far fa-newspaper "></span> <span class="xn-text">
 							Đánh giá - feedback các khóa đã học</span></a></li>
 				<li><a href="#"><span class="fas fa-books "></span> <span
 						class="xn-text"> Update info</span></a></li>
+				</th:block>
 			</ul>
 			<!-- END X-NAVIGATION -->
 		</div>
@@ -199,7 +209,7 @@
 					</div>
 					<div class="mb-footer">
 						<div class="pull-right">
-							<a href="pages-login.html" class="btn btn-success btn-lg">Yes</a>
+							<a href="/logout" class="btn btn-success btn-lg">Yes</a>
 							<button class="btn btn-default btn-lg mb-control-close">No</button>
 						</div>
 					</div>

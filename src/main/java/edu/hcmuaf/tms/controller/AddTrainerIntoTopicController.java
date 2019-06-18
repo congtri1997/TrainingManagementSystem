@@ -46,10 +46,7 @@ public class AddTrainerIntoTopicController {
 	@RequestMapping(value = { "/staff/add_trainer_into_a_topic" }, method = RequestMethod.POST)
 	public @ResponseBody JsonRespone doAaddTrainerIntoATopic(ModelMap model,
 			@ModelAttribute("topicForm") TopicForm topicForm, BindingResult result) {
-		System.out.println("AAAAAA");
 		JsonRespone jsonRespone = new JsonRespone();
-		System.out.println(topicForm);
-		System.out.println(topicForm.getTrainer().getId());
 		topicService.addTrainerIntoTopicService(topicForm);
 		return jsonRespone;
 	}

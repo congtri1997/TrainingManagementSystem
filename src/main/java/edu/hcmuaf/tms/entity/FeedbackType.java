@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table
 public class FeedbackType {
@@ -23,6 +25,7 @@ public class FeedbackType {
 	private String name;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "feedbackType", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private Set<Feedback> feedbacks = new HashSet<Feedback>();
 
 	public FeedbackType() {
@@ -36,6 +39,9 @@ public class FeedbackType {
 
 	public FeedbackType(long id, String name) {
 		this.id = id;
+		this.name = name;
+	}
+	public FeedbackType(String name) {
 		this.name = name;
 	}
 
