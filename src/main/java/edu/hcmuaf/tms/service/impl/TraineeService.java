@@ -57,8 +57,9 @@ public class TraineeService {
 		Trainee trainee = new Trainee();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		trainee.setEnabled(true);
-		if (traineeForm.getBirthDate() != null)
+		if (traineeForm.getBirthDate() != null) {
 			trainee.setBirthDate(LocalDate.parse(traineeForm.getBirthDate(), formatter));
+		}
 		trainee.setEncryptedPassword(encoder.encode(traineeForm.getPassword()));
 		trainee.setFirstName(traineeForm.getFirstName());
 		trainee.setLastName(traineeForm.getLastName());
@@ -71,13 +72,10 @@ public class TraineeService {
 		trainee.setEducation(traineeForm.getEducation());
 		trainee.getRoles().add(role);
 		if (traineeForm.getProgrammingLanguage() != null) {
-			try {
-				Long programmingLangeuageID = traineeForm.getProgrammingLanguage().getId();
-				ProgrammingLanguage programmingLanguage = programmingLanguageService.findById(programmingLangeuageID);
-				if (programmingLanguage != null) {
-					trainee.setProgrammingLanguage(programmingLanguage);
-				}
-			} catch (NumberFormatException e) {
+			Long programmingLangeuageID = traineeForm.getProgrammingLanguage().getId();
+			ProgrammingLanguage programmingLanguage = programmingLanguageService.findById(programmingLangeuageID);
+			if (programmingLanguage != null) {
+				trainee.setProgrammingLanguage(programmingLanguage);
 			}
 		}
 		traineeRepository.save(trainee);

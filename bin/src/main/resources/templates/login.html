@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Dashboard - Bootstrap Admin Template</title>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<!-- <link href="css/bootstrap.min.css" rel="stylesheet"  type="text/css"> -->
+<link th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.css}"
+	rel="stylesheet" type="text/css">
+<link
+	href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600"
+	rel="stylesheet">
+<link th:href="@{/fontawesome-pro-5.8.1-web/css/all.css}"
+	rel="stylesheet" type="text/css">
+<link th:href="@{/css/subnavbar.css}" rel="stylesheet" type="text/css">
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark "
+		style="background-color: #19bc9c;">
+		<div class="container">
+			<a class="navbar-brand" href="#">Training Managment System</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarsExample07" aria-controls="navbarsExample07"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<!--         <div class="collapse navbar-collapse" id="navbarsExample07">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown07" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown07">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+          </ul> -->
+
+		</div>
+	</nav>
+
+
+	<div class="cotainer" style="padding-top: 10rem">
+		<div class="row justify-content-center">
+			<div class="col-md-4">
+				<div class="card">
+					<div class="card-header">Đăng nhập</div>
+					<div class="card-body">
+						<form th:action="@{/j_spring_security_check}" method="POST">
+							<div class="form-group row">
+								<label for="userName"
+									class="col-md-4 col-form-label text-md-right">E-Mail
+									Address</label>
+								<div class="col-md-6">
+									<input type="text" id="userName" class="form-control"
+										name="username" >
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label for="password"
+									class="col-md-4 col-form-label text-md-right">Password</label>
+								<div class="col-md-6">
+									<input type="password" id="password" class="form-control"
+										name="password" required>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<div class="col-md-6 offset-md-4">
+									<div class="checkbox">
+										<label> <input type="checkbox" name="remember">
+											Remember Me
+										</label>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6 offset-md-4">
+								<button type="submit" class="btn btn-primary">Register
+								</button>
+								<a href="#" class="btn btn-link"> Forgot Your Password? </a>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Le javascript
+================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script th:src="@{/webjars/jquery/3.4.0/jquery.js}"></script>
+	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.js}"></script>
+</body>
+</html>

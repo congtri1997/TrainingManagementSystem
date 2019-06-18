@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Training Managment System</title>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<!-- <link href="css/bootstrap.min.css" rel="stylesheet"  type="text/css"> -->
+<link th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.css}"
+	rel="stylesheet" type="text/css">
+<link
+	href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600"
+	rel="stylesheet">
+<link th:href="@{/fontawesome-pro-5.8.1-web/css/all.css}"
+	rel="stylesheet" type="text/css">
+<link th:href="@{/css/subnavbar.css}" rel="stylesheet" type="text/css">
+<link
+	th:href="@{/webjars/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css}"
+	rel="stylesheet" type="text/css">
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/datatables/1.10.19/css/dataTables.bootstrap4.min.css}" />
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark "
+		style="background-color: #19bc9c;">
+		<div class="container">
+			<a class="navbar-brand" href="#">Training Managment System</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarsExample07" aria-controls="navbarsExample07"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<!--         <div class="collapse navbar-collapse" id="navbarsExample07">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown07" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown07">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+          </ul> -->
+			<form class="form-inline my-2 my-md-0">
+				<input class="form-control" type="text" placeholder="Search"
+					aria-label="Search">
+			</form>
+		</div>
+	</nav>
+	<div class="subnavbar">
+		<div class="subnavbar-inner">
+			<div class="container">
+				<ul class="mainnav">
+					<li><a href="index.html"><i class="far fa-user-tie fa-3x"></i><span>Trainer</span>
+					</a></li>
+					<li><a href="reports.html"><i class="fas fa-books fa-3x"></i><span>Cateogry
+								of the course</span> </a></li>
+					<li><a href="reports.html"><i class="fas fa-book fa-3x"></i><span>Course</span>
+					</a></li>
+					<li><a href="guidely.html"><i
+							class="far fa-users-class fa-3x"></i><span>Trainee</span> </a></li>
+					<li class="active"><a href="charts.html"><i
+							class="fal fa-user-hard-hat fa-3x"></i><span>Staff</span> </a></li>
+					<li><a href="shortcodes.html"><i
+							class="far fa-newspaper fa-3x"></i><span>Topic</span> </a></li>
+
+				</ul>
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /subnavbar-inner -->
+	</div>
+
+	<div class="container">
+		<div class="jumbotron">
+			<h1>Quản lý thông tin người hướng dẫn</h1>
+			<p>Xem thông tin chi tiết</p>
+		</div>
+		<table class="table">
+			<tbody th:object="${trainer}">
+				<tr>
+					<th>ID</th>
+					<td th:text="*{id}">none</td>
+
+				</tr>
+				<tr>
+					<th>Họ</th>
+					<td th:text="*{lastName}">none</td>
+
+				</tr>
+				<tr>
+					<th>Tên</th>
+					<td th:text="*{firstName}">none</td>
+
+				</tr>
+				<tr>
+					<th>Email</th>
+					<td th:text="*{email}">none</td>
+
+				</tr>
+				<tr>
+					<th>Tên tài khoản</th>
+					<td th:text="*{userName}">none</td>
+
+				</tr>
+				<tr>
+					<th>Mật khẩu mã hóa</th>
+					<td th:text="*{encryptedPassword}">none</td>
+
+				</tr>
+				<tr>
+					<th>Ngày sinh</th>
+					<td th:text="*{dateOfBirth}">none</td>
+
+				</tr>
+				<tr>
+					<th>Nơi làm việc</th>
+					<td th:text="*{workingPlace}">none</td>
+
+				</tr>
+				<tr>
+					<th>Loại công việc</th>
+					<td th:text="*{workingType}">none</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<!-- Le javascript
+================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script th:src="@{/webjars/jquery/3.4.0/jquery.js}"></script>
+	<script th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/webjars/datatables/1.10.19/js/jquery.dataTables.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/webjars/datatables/1.10.19/js/dataTables.bootstrap4.min.js}"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+
+			$('#example').DataTable({
+
+			/* 'columnDefs' : [ {
+				'targets' : 6, // column index (start from 0)
+				'orderable' : false, // set orderable false for selected columns
+			} ] */
+			});
+		});
+	</script>
+
+</body>
+</html>
