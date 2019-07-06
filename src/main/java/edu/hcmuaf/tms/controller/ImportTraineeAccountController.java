@@ -33,9 +33,9 @@ public class ImportTraineeAccountController {
 		JsonRespone jsonRespone = new JsonRespone();
 		boolean isError = false;
 		Map<String, String> errors = new HashMap<String, String>();
-		System.out.println(importTraineeAccounts.getTraineeForms());
+//		System.out.println(importTraineeAccounts.getTraineeForms());
 		for (TraineeForm traineeForm : importTraineeAccounts.getTraineeForms()) {
-			System.out.println(traineeForm.getNumber() +" - "+ traineeForm.getUserName()+ " - " + traineeForm.getPassword());
+//			System.out.println(traineeForm.getNumber() +" - "+ traineeForm.getUserName()+ " - " + traineeForm.getPassword());
 			if (traineeForm.getUserName() == null || traineeForm.getUserName().trim().isEmpty() || traineeForm.getPassword() == null
 					|| traineeForm.getPassword().trim().isEmpty() || traineeService.isUsernameAlreadyExist(traineeForm.getUserName())) {
 				isError = true;

@@ -15,5 +15,7 @@ public interface TraineeRepository extends JpaRepository<Trainee, Long>, DataTab
 	public List<Trainee> findTraineeNotInACourse(@Param("courseID") long courseID);
 	@Query("Select t from Trainee t where t.id in( SELECT t.id from Trainee t join t.enrollments e where e.course.id = :courseID)")
 	public List<Trainee> findTraineeInACourse(@Param("courseID") long courseID);
+	@Query("select t from Trainee t where t.userName = :userName")
+	public Trainee findByUserName(@Param("userName") String userName);
 
 }

@@ -25,8 +25,8 @@ public class HelloController {
 
 
 	@RequestMapping(value = { "/login" }, method = { RequestMethod.GET })
-	public String loin() {
-		return "login";
+	public String loin(Principal principal) {
+		 return principal == null ?  "login" : "redirect:/"; 
 	}
 
 

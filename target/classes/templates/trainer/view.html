@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- <head
+	th:replace="fragments/general.html :: common_header(~{::title},~{::link})"> -->
+<head
+	th:replace="fragments/general.html :: common_header(~{::title},~{})">
+<title>TMS - Update Trainer</title>
+</head>
+<body>
+	<!-- START PAGE CONTAINER -->
+	<div class=" page-container">
+		<th:block th:replace="fragments/general.html :: sidebar"></th:block>
+		<!-- PAGE CONTENT -->
+		<div class="page-content">
+			<th:block
+				th:replace="fragments/general.html :: navigation-horizontal"></th:block>
+			<!-- PAGE CONTENT WRAPPER -->
+			<div class="page-content-wrap">
+
+				<div class="row">
+					<div class="col-md-12">
+						
+							<div class="panel panel-default" th:object="${trainerForm}">
+								<div class="panel-heading">
+									<h3 class="panel-title">
+										<strong>Xem chi tiết thông tin giảng viên</strong>
+									</h3>
+									<ul class="panel-controls">
+										<li><a href="#" class="panel-collapse"><span
+												class="fa fa-angle-down"></span></a></li>
+										<li><a href="#" class="panel-refresh"><span
+												class="fas fa-sync"></span></a></li>
+										<li><a href="#" class="panel-remove"><span
+												class="fa fa-times"></span></a></li>
+									</ul>
+								</div>
+								<div class="panel-body">
+
+									<table class="table" >
+										<tr>
+											<th>ID:</th>
+											<td th:text="*{Id}">Bill Gates</td>
+										</tr>
+										<tr>
+											<th>Tên tài khoản:</th>
+											<td th:text="*{userName}">555 77 854</td>
+										</tr>
+										<tr>
+											<th>Mật khẩu:</th>
+											<td th:text="*{passwordText}">555 77 854</td>
+										</tr>
+										<tr>
+											<th>Email:</th>
+											<td th:text="*{email}">555 77 855</td>
+										</tr>
+										<tr>
+											<th>Số điện thoại:</th>
+											<td th:text="*{phoneNumber}">555 77 855</td>
+										</tr>
+										<tr>
+											<th>Nơi làm việc:</th>
+											<td th:text="*{workingPlace}">555 77 855</td>
+										</tr>
+										<tr>
+											<th>Loại công việc:</th>
+											<td th:text="*{workingTypeText == null ? 'Chưa có':workingTypeText}">555 77 855</td>
+										</tr>
+										<tr>
+											<th>Họ:</th>
+											<td th:text="*{lastName}">555 77 855</td>
+										</tr>
+										<tr>
+											<th>Tên:</th>
+											<td th:text="*{firstName}">555 77 855</td>
+										</tr>
+										<tr>
+											<th>Ngày sinh:</th>
+											<td th:text="*{birthDate}">555 77 855</td>
+										</tr>
+									</table>
+									
+
+
+
+									<div class="panel-footer">
+
+										<button class="btn btn-default" onclick="location.href='/staff/trainer/list'">
+											<i class="fal fa-arrow-left"></i> Quay lại
+										</button>
+
+									</div>
+
+								</div>
+
+							</div>
+					
+					</div>
+					<!--col 12-->
+				</div>
+			</div>
+			<!-- END PAGE CONTENT WRAPPER -->
+		</div>
+		<!-- END PAGE CONTENT -->
+	</div>
+	<!-- END PAGE CONTAINER -->
+	<th:block th:replace="fragments/general.html :: logout"></th:block>
+	<th:block
+		th:replace="fragments/general.html :: common_plugins(~{::script})">
+		<!-- START THIS PAGE PLUGINS-->
+		<script type='text/javascript' src='js/plugins/icheck/icheck.min.js'
+			th:src="@{/js/plugins/icheck/icheck.min.js}"></script>
+		<script type='text/javascript'
+			src='js/plugins/bootstrap/bootstrap-select.js'
+			th:src="@{/js/plugins/bootstrap/bootstrap-select.js}"></script>
+		<script type="text/javascript"
+			src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"
+			th:src="@{/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js}"></script>
+		<!-- END THIS PAGE PLUGINS -->
+		<script type='text/javascript'
+			src='js/plugins/jquery-validation/jquery.validate.js'
+			th:src="@{/js/plugins/jquery-validation/jquery.validate.js}"></script>
+		<script type="text/javascript"
+			src="js/plugins/bootstrap/bootstrap-datepicker.js"
+			th:src="@{/js/plugins/bootstrap/bootstrap-datepicker.js}"></script>
+		<script type="text/javascript">
+			$.validator.addMethod("australianDate", function(value, element) {
+				// put your own logic here, this is just a (crappy) example
+				return value.match(/^\d\d?\/\d\d?\/\d\d\d\d$/);
+			}, "Please enter a date in the format dd/mm/yyyy.");
+			$.validator
+					.setDefaults({
+						highlight : function(element) {
+							$(element).closest('.input-group').addClass(
+									'has-error');
+						},
+						unhighlight : function(element) {
+							$(element).closest('.input-group').removeClass(
+									'has-error');
+						},
+						errorElement : 'label',
+						errorClass : 'form-text text-danger',
+						errorPlacement : function(error, element) {
+							if (element.parent('.input-group').length) {
+								error.insertAfter(element.parent());
+							} else {
+								error.insertAfter(element);
+							}
+						}
+					});
+
+			$("#jvalidate1").validate({
+				ignore : [],
+				rules : {
+
+					password : {
+						required : true,
+						minlength : 5,
+						maxlength : 10
+					},
+					confirmPassword : {
+						required : true,
+						minlength : 5,
+						maxlength : 10,
+						equalTo : "#password"
+					},
+					firstName : {
+						required : true,
+						minlength : 1,
+						maxlength : 20
+					},
+					lastName : {
+						required : true,
+						minlength : 1,
+						maxlength : 20
+					},
+
+					birthDate : {
+						required : true,
+						australianDate : true
+					},
+					phoneNumber : {
+						required : true,
+						number : true,
+						minlength : 9,
+						maxlength : 11
+					},
+					workingPlace : {
+						required : true
+					},
+					workingType : {
+						required : true
+					}
+				}
+			});
+			$("#jvalidate3").validate({
+				ignore : [],
+				rules : {
+
+					password : {
+						required : true,
+						minlength : 5,
+						maxlength : 10
+					},
+					confirmPassword : {
+						required : true,
+						minlength : 5,
+						maxlength : 10,
+						equalTo : "#password"
+					}
+				}
+			});
+			$.extend($.validator.messages, {
+				required : "Hãy nhập.",
+				remote : "Hãy sửa cho đúng.",
+				email : "Hãy nhập email.",
+				url : "Hãy nhập URL.",
+				date : "Hãy nhập ngày.",
+				dateISO : "Hãy nhập ngày (ISO).",
+				number : "Hãy nhập số.",
+				digits : "Hãy nhập chữ số.",
+				creditcard : "Hãy nhập số thẻ tín dụng.",
+				equalTo : "Hãy nhập thêm lần nữa.",
+				extension : "Phần mở rộng không đúng.",
+				maxlength : $.validator
+						.format("Hãy nhập từ {0} kí tự trở xuống."),
+				minlength : $.validator
+						.format("Hãy nhập từ {0} kí tự trở lên."),
+				rangelength : $.validator
+						.format("Hãy nhập từ {0} đến {1} kí tự."),
+				range : $.validator.format("Hãy nhập từ {0} đến {1}."),
+				max : $.validator.format("Hãy nhập từ {0} trở xuống."),
+				min : $.validator.format("Hãy nhập từ {0} trở lên.")
+			});
+			$('#dp').datepicker({
+				startView : 2,
+				format : 'dd/mm/yyyy'
+			});
+		</script>
+
+	</th:block>
+</body>
+</html>

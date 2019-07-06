@@ -1,5 +1,6 @@
 package edu.hcmuaf.tms.controller;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -19,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.hcmuaf.tms.entity.AbstractUser;
 import edu.hcmuaf.tms.entity.Trainer;
 import edu.hcmuaf.tms.form.JsonRespone;
 import edu.hcmuaf.tms.form.TrainerForm;
+import edu.hcmuaf.tms.service.impl.AbstractUserService;
 import edu.hcmuaf.tms.service.impl.TrainerService;
 import edu.hcmuaf.tms.service.impl.WorkingTypeService;
 import edu.hcmuaf.tms.validator.TrainerAddValidator;
@@ -46,6 +49,9 @@ public class TrainerController {
 
 	@Autowired
 	private ReloadableResourceBundleMessageSource message;
+
+	@Autowired
+	private AbstractUserService abstractUserService;
 
 	@RequestMapping(value = { "/staff/trainer/list" }, method = RequestMethod.GET)
 	public String listTrainer(ModelMap model) {
@@ -90,6 +96,17 @@ public class TrainerController {
 		return "trainer/update";
 	}
 
+	@RequestMapping(value = { "/trainer/update" }, method = RequestMethod.GET)
+	public String editTrainer(ModelMap model, Principal principal) {
+		AbstractUser abstractUser = abstractUserService.getAbstractUser(principal.getName());
+		Trainer trainer = trainerService.getOne(abstractUser.getId());
+		if (trainer == null)
+			return "redirect:/";
+		model.addAttribute("trainerForm", TrainerForm.convertToTrainerForm(trainer));
+		model.addAttribute("workingTypes", workingTypeService.findAll());
+		return "trainer/trainer_update.html";
+	}
+
 	@RequestMapping(value = { "/staff/trainer/view/{id}" }, method = RequestMethod.GET)
 	public String viewTrainer(ModelMap model, @PathVariable("id") long id) {
 		Trainer trainer = trainerService.getOne(id);
@@ -99,7 +116,7 @@ public class TrainerController {
 		return "trainer/view";
 	}
 
-	@RequestMapping(value = { "/staff/trainer/update" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/staff/trainer/update", "/trainer/update" }, method = RequestMethod.POST)
 	public @ResponseBody JsonRespone doEditTrainer(ModelMap model,
 			@ModelAttribute("trainerForm") TrainerForm trainerForm, BindingResult result) {
 		JsonRespone jsonRespone = new JsonRespone();
@@ -118,7 +135,7 @@ public class TrainerController {
 		return jsonRespone;
 	}
 
-	@RequestMapping(value = { "/staff/trainer/changePassword" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/staff/trainer/changePassword","/trainer/changePassword" }, method = RequestMethod.POST)
 	public @ResponseBody JsonRespone doChangePass(ModelMap model,
 			@ModelAttribute("trainerForm") TrainerForm trainerForm, BindingResult result) {
 		JsonRespone jsonRespone = new JsonRespone();
@@ -149,7 +166,7 @@ public class TrainerController {
 	// datatable
 
 	@RequestMapping(value = "/staff/trainer/trainers", method = RequestMethod.GET)
-	public  @ResponseBody DataTablesOutput<TrainerForm> list(@Valid DataTablesInput input) {
+	public @ResponseBody DataTablesOutput<TrainerForm> list(@Valid DataTablesInput input) {
 		return trainerService.findAll(input);
 	}
 

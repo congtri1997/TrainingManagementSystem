@@ -1,0 +1,14 @@
+.custom-logo {
+	height: 50px;
+}
+
+.custom-logo-name-system {
+	font-size: 17px;
+	padding: 15px;
+}
+
+div.dataTables_scrollBody table thead .sorting:before,
+div.dataTables_scrollBody table thead .sorting_asc:before,
+div.dataTables_scrollBody table thead .sorting_desc:before {
+display: none;
+}

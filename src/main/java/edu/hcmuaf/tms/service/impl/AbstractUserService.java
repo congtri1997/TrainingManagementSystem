@@ -21,4 +21,8 @@ public class AbstractUserService {
 	public boolean isUserNameAlreadyExisted(String userName) {
 		return abstractUserRepository.isUserNameAlreadyExisted(userName);
 	}
+	
+	public AbstractUser getAbstractUser(String username) {
+		return abstractUserRepository.getAbstractUser(username);
+	}
 }

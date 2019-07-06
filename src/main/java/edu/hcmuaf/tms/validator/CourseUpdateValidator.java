@@ -24,8 +24,8 @@ public class CourseUpdateValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 
 		CourseForm courseForm = (CourseForm) target;
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotEmpty.courseForm.firstName");
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "startDate", "NotEmpty.courseForm.lastName");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotEmpty.courseForm.name");
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "startDate", "NotEmpty.courseForm.startDate");
 		
 		if (courseForm.getId() == null ||!courseService.existsById(courseForm.getId())) {
 			errors.rejectValue("id", "NotExist.courseForm.id");

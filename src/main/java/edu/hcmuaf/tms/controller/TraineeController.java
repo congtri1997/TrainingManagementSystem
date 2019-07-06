@@ -1,7 +1,9 @@
 package edu.hcmuaf.tms.controller;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Locale;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import edu.hcmuaf.tms.entity.AbstractUser;
 import edu.hcmuaf.tms.entity.Trainee;
 import edu.hcmuaf.tms.form.JsonRespone;
 import edu.hcmuaf.tms.form.TraineeForm;
+import edu.hcmuaf.tms.service.impl.AbstractUserService;
 import edu.hcmuaf.tms.service.impl.ProgrammingLanguageService;
 import edu.hcmuaf.tms.service.impl.TraineeService;
 import edu.hcmuaf.tms.validator.TraineeAddValidator;
@@ -46,6 +50,9 @@ public class TraineeController {
 
 	@Autowired
 	private ProgrammingLanguageService programmingLanguageService;
+	
+	@Autowired
+	private AbstractUserService abstractUserService;
 
 	@RequestMapping(value = { "/staff/trainee/list" }, method = RequestMethod.GET)
 	public String listTrainee(ModelMap model) {
@@ -89,6 +96,16 @@ public class TraineeController {
 		model.addAttribute("programmingLanguages", programmingLanguageService.findAll());
 		return "trainee/update";
 	}
+	@RequestMapping(value = { "/trainee/update" }, method = RequestMethod.GET)
+	public String editTrainee(ModelMap model, Principal principal) {
+		AbstractUser abstractUser = abstractUserService.getAbstractUser(principal.getName());
+		Trainee trainee = traineeService.getOne(abstractUser.getId());
+		if (trainee == null)
+			return "redirect:/staff/trainee/list";
+		model.addAttribute("traineeForm", TraineeForm.toDTO(trainee));
+		model.addAttribute("programmingLanguages", programmingLanguageService.findAll());
+		return "trainee/trainee_update";
+	}
 
 	@RequestMapping(value = { "/staff/trainee/view/{id}" }, method = RequestMethod.GET)
 	public String viewTrainee(ModelMap model, @PathVariable("id") long id) {
@@ -99,7 +116,7 @@ public class TraineeController {
 		return "trainee/view";
 	}
 
-	@RequestMapping(value = { "/staff/trainee/update" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/staff/trainee/update","/trainee/update" }, method = RequestMethod.POST)
 	public @ResponseBody JsonRespone doEditTrainee(ModelMap model,
 			@ModelAttribute("traineeForm") TraineeForm traineeForm, BindingResult result) {
 		JsonRespone jsonRespone = new JsonRespone();
@@ -118,7 +135,7 @@ public class TraineeController {
 		return jsonRespone;
 	}
 
-	@RequestMapping(value = { "/staff/trainee/changePassword" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/staff/trainee/changePassword","/trainee/changePassword" }, method = RequestMethod.POST)
 	public @ResponseBody JsonRespone doChangePass(ModelMap model,
 			@ModelAttribute("traineeForm") TraineeForm traineeForm, BindingResult result) {
 		JsonRespone jsonRespone = new JsonRespone();
@@ -141,9 +158,16 @@ public class TraineeController {
 	@RequestMapping(value = { "/staff/trainee/delete/{id}" }, method = RequestMethod.DELETE)
 	public @ResponseBody JsonRespone doAddTrainee(ModelMap model, @PathVariable("id") long id) {
 		JsonRespone jsonRespone = new JsonRespone();
-		traineeService.delete(id);
-		jsonRespone.setValidated(true);
-		jsonRespone.setMessage("Xóa thành công");
+		try {
+			traineeService.delete(id);
+			jsonRespone.setValidated(true);
+			jsonRespone.setMessage("Xóa thành công");
+			
+		} catch(Exception e) {
+			jsonRespone.setValidated(false);
+			jsonRespone.setMessage("Dữ liệu đang bị ràng buộc");
+			
+		}
 		return jsonRespone;
 	}
 

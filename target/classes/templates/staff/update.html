@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- <head
+	th:replace="fragments/general.html :: common_header(~{::title},~{::link})"> -->
+<head
+	th:replace="fragments/general.html :: common_header(~{::title},~{})">
+<title>TMS - Update Trainee</title>
+</head>
+<body>
+	<!-- START PAGE CONTAINER -->
+	<div class=" page-container">
+		<th:block th:replace="fragments/general.html :: sidebar"></th:block>
+		<!-- PAGE CONTENT -->
+		<div class="page-content">
+			<th:block
+				th:replace="fragments/general.html :: navigation-horizontal"></th:block>
+			<!-- PAGE CONTENT WRAPPER -->
+			<div class="page-content-wrap">
+
+				<div class="row">
+					<div class="col-md-12">
+						<form th:action="@{/admin/staff/changePassword}" id="changePasswordForm"
+							class="form-horizontal" th:object="${staffForm}" method="post">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title">
+										<strong>Đổi mật khẩu</strong>
+									</h3>
+									<ul class="panel-controls">
+										<li><a href="#" class="panel-collapse"><span
+												class="fa fa-angle-down"></span></a></li>
+										<li><a href="#" class="panel-refresh"><span
+												class="fas fa-sync"></span></a></li>
+										<li><a href="#" class="panel-remove"><span
+												class="fa fa-times"></span></a></li>
+									</ul>
+								</div>
+
+								<div class="panel-body">
+
+									<input type="hidden" th:field="*{Id}" class="form-control" />
+
+									<div class="form-group">
+										<label class="col-md-3 col-xs-12 control-label">Mật
+											khẩu</label>
+										<div class="col-md-6 col-xs-12">
+											<div class="input-group">
+												<span class="input-group-addon"><span
+													class="fas fa-lock"></span></span> <input id="password"
+													type="password" th:field="*{password}" class="form-control" />
+											</div>
+											<label id="password-error" class="form-text text-danger"
+												for="password" th:if="${#fields.hasErrors('password')}"
+												th:errors="*{password}">This field is required.</label> <label
+												id="password-error" class="form-text text-danger"
+												style="display: none"></label>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-md-3 col-xs-12 control-label">Xác
+											nhận mật khẩu</label>
+										<div class="col-md-6 col-xs-12">
+											<div class="input-group">
+												<span class="input-group-addon"><span
+													class="fas fa-lock"></span></span> <input type="password"
+													th:field="*{confirmPassword}" class="form-control" />
+											</div>
+											<label id="confirmPassword-error"
+												class="form-text text-danger" for="confirmPassword"
+												th:if="${#fields.hasErrors('confirmPassword')}"
+												th:errors="*{confirmPassword}">This field is
+												required.</label> <label id="confirmPassword-error"
+												class="form-text text-danger" style="display: none"></label>
+										</div>
+									</div>
+
+
+
+								</div>
+								<div class="panel-footer">
+									<button class="btn btn-default">
+										<i class="fal fa-redo"></i> Reset field
+									</button>
+									<button class="btn btn-default" type="button"
+										onclick="location.href='/admin/staff/list'">
+										<i class="fal fa-arrow-left"></i> Quay lại
+									</button>
+									<button class="btn btn-primary pull-right">
+										<i class="fal fa-level-up"></i> Gửi
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<!--col 12-->
+				</div>
+			</div>
+			<!-- END PAGE CONTENT WRAPPER -->
+		</div>
+		<!-- END PAGE CONTENT -->
+	</div>
+	<!-- END PAGE CONTAINER -->
+	<th:block th:replace="fragments/general.html :: logout"></th:block>
+	<th:block
+		th:replace="fragments/general.html :: common_plugins(~{::script})">
+		<!-- START THIS PAGE PLUGINS-->
+		<script type='text/javascript' src='js/plugins/icheck/icheck.min.js'
+			th:src="@{/js/plugins/icheck/icheck.min.js}"></script>
+		<script type="text/javascript"
+			src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"
+			th:src="@{/js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js}"></script>
+		<!-- END THIS PAGE PLUGINS -->
+		<script type='text/javascript'
+			src='js/plugins/jquery-validation/jquery.validate.js'
+			th:src="@{/js/plugins/jquery-validation/jquery.validate.js}"></script>
+		<script type="text/javascript">
+			$.validator
+					.setDefaults({
+						highlight : function(element) {
+							$(element).closest('.input-group').addClass(
+									'has-error');
+						},
+						unhighlight : function(element) {
+							$(element).closest('.input-group').removeClass(
+									'has-error');
+						},
+						errorElement : 'label',
+						errorClass : 'form-text text-danger',
+						errorPlacement : function(error, element) {
+							if (element.parent('.input-group').length) {
+								error.insertAfter(element.parent());
+							} else {
+								error.insertAfter(element);
+							}
+						}
+					});
+
+			$("#changePasswordForm").validate(
+					{
+						ignore : [],
+						submitHandler : function(form) {
+							$.ajax({
+								type : $(form).attr('method'),
+								url : $(form).attr('action'),
+								data : $(form).serialize(),
+
+								success : function(res) {
+
+									if (res.validated) {
+										toastr["success"]("Tạo thành công!",
+												"Thông báo")
+
+									} else {
+										//Set error messages
+										toastr["error"]("Có lỗi xảy ra ???",
+												"Thông báo")
+										$.each(res.errorMessages, function(key,
+												value) {
+
+											$("#" + key + "-error").text("");
+											/*  console.log('<span class="error">'+key +' - '+value+'</span>'); */
+											$("#" + key + "-error").text(value)
+													.show(); // div.foo elements that contain <p> tags
+
+										});
+									}
+
+								}
+
+							});
+							return false;
+						},
+						rules : {
+
+							password : {
+								required : true,
+								minlength : 5,
+								maxlength : 10
+							},
+							confirmPassword : {
+								required : true,
+								minlength : 5,
+								maxlength : 10,
+								equalTo : "#password"
+							}
+						}
+					});
+			$.extend($.validator.messages, {
+				required : "Hãy nhập.",
+				remote : "Hãy sửa cho đúng.",
+				email : "Hãy nhập email.",
+				url : "Hãy nhập URL.",
+				date : "Hãy nhập ngày.",
+				dateISO : "Hãy nhập ngày (ISO).",
+				number : "Hãy nhập số.",
+				digits : "Hãy nhập chữ số.",
+				creditcard : "Hãy nhập số thẻ tín dụng.",
+				equalTo : "Hãy nhập thêm lần nữa.",
+				extension : "Phần mở rộng không đúng.",
+				maxlength : $.validator
+						.format("Hãy nhập từ {0} kí tự trở xuống."),
+				minlength : $.validator
+						.format("Hãy nhập từ {0} kí tự trở lên."),
+				rangelength : $.validator
+						.format("Hãy nhập từ {0} đến {1} kí tự."),
+				range : $.validator.format("Hãy nhập từ {0} đến {1}."),
+				max : $.validator.format("Hãy nhập từ {0} trở xuống."),
+				min : $.validator.format("Hãy nhập từ {0} trở lên.")
+			});
+		</script>
+
+	</th:block>
+</body>
+</html>

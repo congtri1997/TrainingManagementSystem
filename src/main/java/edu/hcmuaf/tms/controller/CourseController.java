@@ -120,9 +120,16 @@ public class CourseController {
 	@RequestMapping(value = { "/staff/course/delete/{id}" }, method = RequestMethod.DELETE)
 	public @ResponseBody JsonRespone doDeleteCourse(ModelMap model, @PathVariable("id") long id) {
 		JsonRespone jsonRespone = new JsonRespone();
-		courseService.delete(id);
-		jsonRespone.setValidated(true);
-		jsonRespone.setMessage("Xóa thành công");
+		try {
+			courseService.delete(id);
+			jsonRespone.setValidated(true);
+			jsonRespone.setMessage("Xóa thành công");
+			
+		} catch(Exception e) {
+			jsonRespone.setValidated(false);
+			jsonRespone.setMessage("Dữ liệu đang bị ràng buộc");
+			
+		}
 		return jsonRespone;
 	}
 
@@ -172,9 +179,16 @@ public class CourseController {
 	@RequestMapping(value = { "/staff/course/deleteTopic/{id}" }, method = RequestMethod.DELETE)
 	public @ResponseBody JsonRespone doDeleteTopic(ModelMap model, @PathVariable("id") long id) {
 		JsonRespone jsonRespone = new JsonRespone();
-		topicservice.delete(id);
-		jsonRespone.setValidated(true);
-		jsonRespone.setMessage("Xóa thành công");
+		try {
+			topicservice.delete(id);
+			jsonRespone.setValidated(true);
+			jsonRespone.setMessage("Xóa thành công");
+			
+		} catch(Exception e) {
+			jsonRespone.setValidated(false);
+			jsonRespone.setMessage("Dữ liệu đang bị ràng buộc");
+			
+		}
 		return jsonRespone;
 	}
 

@@ -17,15 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.hcmuaf.tms.entity.AbstractUser;
 import edu.hcmuaf.tms.entity.Role;
 import edu.hcmuaf.tms.repository.AbstractUserRepository;
-import edu.hcmuaf.tms.repository.impl.RoleDAO;
 
 @Service
 @Transactional
 public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private AbstractUserRepository abstractUserRepository;
-	@Autowired
-	private RoleDAO roleDAO;
 
 	@Override
 	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {

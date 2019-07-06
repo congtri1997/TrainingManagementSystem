@@ -1,14 +1,10 @@
 package edu.hcmuaf.tms.service.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.hcmuaf.tms.entity.Course;
 import edu.hcmuaf.tms.entity.Enrollment;
-import edu.hcmuaf.tms.entity.Trainee;
 import edu.hcmuaf.tms.form.AddTraineeIntoACourseDTO;
 import edu.hcmuaf.tms.repository.CourseRepository;
 import edu.hcmuaf.tms.repository.EnrollmentRepository;
